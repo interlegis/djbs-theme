@@ -1,0 +1,8 @@
+FILTER_STYLE_ACCORDION = "accordion"
+FILTER_STYLE_CLASSIC = "classic"
+FILTER_STYLE_DROPDOWN = "dropdown"
+FILTER_STYLE_FORM = "form"
+
+STYLE_CARD = "card"
+STYLE_ACCORDION = "accordion"
+STYLE_TAB = "tab"
