@@ -1,0 +1,14 @@
+{% load i18n admin_urls djbs_extras %}
+{% block object-tools-items %}
+  {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+  <a class="addlink nav-link historylink" href="{% add_preserved_filters history_url %}" aria-labelledby="text-tool-history" title="{% translate 'History' %}">
+    <i class="{% tool_icon_class 'history' %}"></i>
+    <span id="text-tool-history" class="d-lg-none">{% translate "History" %}</span>
+  </a>
+  {% if has_absolute_url %}
+    <a class="addlink nav-link viewsitelink" href="{{ absolute_url }}" aria-labelledby="text-tool-viewsite" title="{% translate 'View on site' %}">
+      <i class="{% tool_icon_class 'viewsite' %}"></i>
+      <span id="text-tool-viewsite" class="d-lg-none">{% translate "View on site" %}</span>
+    </a>
+  {% endif %}
+{% endblock %}

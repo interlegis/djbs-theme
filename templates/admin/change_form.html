@@ -1,0 +1,128 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify djbs_extras %}
+
+{% block extrahead %}{{ block.super }}
+<script src="{% url 'admin:jsi18n' %}"></script>
+{#{ media }#}
+{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <!--link rel="stylesheet" href="{% static "admin/css/forms.css" %}" -->
+{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
+    {% if has_view_permission %}<li class="breadcrumb-item"><a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}</li>{% endif %}
+    <li class="breadcrumb-item active" aria-current="page">{% if add %}{% blocktranslate with name=opts.verbose_name %}Add {{ name }}{% endblocktranslate %}{% else %}{{ original|truncatewords:"18" }}{% endif %}</li>
+  {% endblock %}
+{% endif %}
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}
+      {% if change and not is_popup %}
+        {% block object-tools-items %}
+          {% change_form_object_tools %}
+        {% endblock %}
+      {% endif %}
+    {% endblock %}
+    <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %}method="post" id="{{ opts.model_name }}_form" class="{% if errors %}was-validated{% else %}needs-validation{% endif %}" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
+      <div>
+        {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1">{% endif %}
+        {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">{% endif %}
+        {% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+        {% if errors %}
+          <p class="errornote">
+          {% blocktranslate count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
+          </p>
+          {{ adminform.form.non_field_errors }}
+        {% endif %}
+
+        {% block field_sets %}
+          {% if djbs.FIELDSET_STYLE == djbsc.STYLE_TAB %}
+            <div role="tablist">
+              <ul class="nav nav-underline" id="fieldsetTabs">
+                {% for fieldset in adminform %}
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link{% if forloop.first %} active{% endif %}" id="fieldsetTab-{{ forloop.counter }}" data-bs-toggle="tab" data-bs-target="#fieldsetTabPanel-{{ forloop.counter }}" type="button" role="tab" aria-controls="fieldsetTabPanel-{{ forloop.counter }}"{% if forloop.first %} aria-selected="true"{% endif %}>
+                      {% if fieldset.name %}
+                        {{ fieldset.name|upper }}
+                      {% else %}
+                        {% blocktranslate with pos=forloop.counter %}DEFAULT {{ pos }}{% endblocktranslate %}
+                      {% endif %}
+                    </button>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="tab-content" id="fieldsetTabContent">
+          {% elif djbs.FIELDSET_STYLE == djbsc.STYLE_ACCORDION %}
+            <div class="accordion" id="fieldsetAccordion">
+          {% endif %}
+          {% for fieldset in adminform %}
+            {% include "admin/includes/fieldset.html" %}
+          {% endfor %}
+          {% if djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %}
+            {% if DJBS.FIELDSET_STYLE == djbsc.STYLE_TAB or DJBS.FIELDSET_STYLE == djbsc.STYLE_ACCORDION %}
+              {# closes the div openned to tab/accordion layout #}
+              {# but, if inlines uses the same layout, keep div open #}
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endblock %}
+
+        {% block after_field_sets %}{% endblock %}
+
+        {% block inline_field_sets %}
+          {% if djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %}
+            {% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}
+              <div class="accordion" id="fieldsetAccordion">
+            {% elif djbs.INLINESET_STYLE == djbsc.STYLE_TAB %}
+              <ul class="nav nav-underline" id="fieldsetTabs" role="tablist">
+                {% for inline_admin_formset in inline_admin_formsets %}
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link{% if forloop.first %} active{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-tab" data-bs-toggle="tab" data-bs-target="#{{ inline_admin_formset.formset.prefix }}-group" type="button" role="tab" aria-controls="{{ inline_admin_formset.formset.prefix }}-group"{% if forloop.first %} aria-selected="true"{% endif %}>
+                      {% if inline_admin_formset.formset.max_num == 1 %}
+                        {{ inline_admin_formset.opts.verbose_name|upper }}
+                      {% else %}
+                        {{ inline_admin_formset.opts.verbose_name_plural|upper }}
+                      {% endif %}
+                    </button>
+                  </li>
+                {% endfor %}
+              </ul>
+              <div class="tab-content" id="fieldsetTabContent">
+            {% endif %}
+          {% endif %}
+          {% for inline_admin_formset in inline_admin_formsets %}
+            {% include inline_admin_formset.opts.template %}
+          {% endfor %}
+          {% if djbs.INLINESET_STYLE == djbsc.STYLE_TAB or djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}</div>{% endif %} {# closes the div openned before for #}
+        {% endblock %}
+
+        {% block after_related_objects %}{% endblock %}
+
+        {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+        {% block admin_change_form_document_ready %}
+          <script id="django-admin-form-add-constants"
+            src="{% static 'admin/js/change_form.js' %}"
+            {% if adminform and add %}
+                data-model-name="{{ opts.model_name }}"
+            {% endif %}
+            async>
+          </script>
+        {% endblock %}
+
+        {# JavaScript for prepopulated fields #}
+        {% prepopulated_fields_js %}
+      </div>
+    </form>
+  </div>
+{% endblock %}

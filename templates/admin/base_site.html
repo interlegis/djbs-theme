@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+  <a class="navbar-brand" href="{% url 'admin:index' %}">
+    <img src="{% static 'img/logo.png' %}" height="48px"/>
+    <span class="sidenav-collapsible collapse collapse-horizontal show fw-bold ms-2">{{ site_header|default:_('Django administration') }}</span>
+  </a>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

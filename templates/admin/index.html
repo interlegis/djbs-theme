@@ -1,0 +1,45 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+
+{% block coltype %}colMS dashboard{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block nav-breadcrumbs %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content %}
+  <div id="content-main" class="dashboard d-flex flex-row flex-wrap gap-2 py-2">
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+  </div>
+{% endblock %}
+
+{% block sidebar-title %}{% translate 'Recent actions' %}{% endblock sidebar-title %}
+
+{% block sidebar-body %}
+  <h6>{% translate 'My actions' %}</h6>
+  {% load log %}
+  {% get_admin_log 10 as admin_log for_user user %}
+  {% if not admin_log %}
+    <p>{% translate 'None available' %}</p>
+  {% else %}
+    <ul class="actionlist list-group-flush list-group">
+      {% for entry in admin_log %}
+        <li class="list-group-item{% if entry.is_deletion or not entry.get_admin_url %} disabled{% endif %} d-flex justify-content-between align-items-start{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+          <a class="icon-link icon-link-hover{% if entry.is_deletion or not entry.get_admin_url %} disabled{% endif %}" href="{{ entry.get_admin_url|default:'#' }}">
+            <i class="bi bi-{% if entry.is_addition %}plus-square{% endif %}{% if entry.is_change %}pencil-square{% endif %}{% if entry.is_deletion %}trash2{% endif %}" aria-label="{% if entry.is_addition %}{% translate 'Added:' %}{% elif entry.is_change %}{% translate 'Changed:' %}{% elif entry.is_deletion %}{% translate 'Deleted:' %}{% endif %}"></i>
+            {{ entry.object_repr }}
+          </a>
+            {% if entry.content_type %}
+            <span class="badge text-bg-primary rounded-pill">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+          {% else %}
+            <span class="badge text-bg-primary rounded-pill">{% translate 'Unknown content' %}</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

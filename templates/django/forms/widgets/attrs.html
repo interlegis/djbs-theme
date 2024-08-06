@@ -1,0 +1,1 @@
+{% for name, value in widget.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}{% if name == 'class' %} {% firstof djbs_form_control_class 'form-control' %}{% endif %}"{% endif %}{% endif %}{% endfor %}{% if 'class' not in widget.attrs %} class="{% firstof djbs_form_control_class 'form-control' %}"{% endif %}

@@ -1,0 +1,43 @@
+{% load i18n %}
+{% if result_hidden_fields %}
+  <div class="hiddenfields">{# DIV for HTML validation #}
+  {% for item in result_hidden_fields %}{{ item }}{% endfor %}
+</div>
+{% endif %}
+{% if results %}
+  <div class="results">
+    <table id="result_list" class="table table-sm table-hover">
+      <thead>
+        <tr>
+          {% for header in result_headers %}
+            <th scope="col"{{ header.class_attrib }}>
+              <div class="d-flex g-1">
+                <span class="me-auto">{{ header.text|capfirst }}</span>
+                {% if header.sortable %}
+                  {% if header.sort_priority > 0 %}
+                    <div class="sortoptions">
+                      <a class="sortremove" href="{{ header.url_remove }}" title="{% translate "Remove from sorting" %}"><i class="bi bi-x"></i></a>
+                      <a href="{{ header.url_toggle }}" class="toggle {{ header.ascending|yesno:'ascending,descending' }}" title="{% translate "Toggle sorting" %}"><i class="bi {{ header.ascending|yesno:'bi-arrow-down-short,bi-arrow-up-short' }}"></i></a>
+                      {% if num_sorted_fields > 1 %}<span class="sortpriority badge text-bg-secondary small rounded-pill" title="{% blocktranslate with priority_number=header.sort_priority %}Sorting priority: {{ priority_number }}{% endblocktranslate %}">{{ header.sort_priority }}</span>{% endif %}
+                    </div>
+                  {% else %}
+                    <a href="{{ header.url_primary }}" class="small"><i class="small bi bi-arrow-down-up"></i></a>
+                  {% endif %}
+                {% endif %}
+              </div>
+              </div>
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for result in results %}
+          {% if result.form and result.form.non_field_errors %}
+            <tr><td colspan="{{ result|length }}">{{ result.form.non_field_errors }}</td></tr>
+          {% endif %}
+          <tr>{% for item in result %}{{ item }}{% endfor %}</tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

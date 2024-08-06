@@ -1,0 +1,11 @@
+{% load i18n admin_urls djbs_extras %}
+
+{% block object-tools-items %}
+  {% if has_add_permission %}
+    {% url cl.opts|admin_urlname:'add' as add_url %}
+    <a class="addlink nav-link" href="{% add_preserved_filters add_url is_popup to_field %}" aria-labelledby="text-tool-add" title="{% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}">
+      <i class="{% tool_icon_class 'add' %}"></i>
+      <span id="text-tool-add" class="d-lg-none">{% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}</span>
+    </a>
+  {% endif %}
+{% endblock %}
