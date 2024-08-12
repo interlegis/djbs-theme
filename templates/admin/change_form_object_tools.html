@@ -1,4 +1,5 @@
 {% load i18n admin_urls djbs_extras %}
+
 {% block object-tools-items %}
   {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
   <a class="addlink nav-link historylink" href="{% add_preserved_filters history_url %}" aria-labelledby="text-tool-history" title="{% translate 'History' %}">

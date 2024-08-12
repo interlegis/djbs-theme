@@ -28,25 +28,27 @@
   <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now "Z" %}">
     <a href="#content-start" class="skip-to-content-link">{% translate 'Skip to main content' %}</a>
     <div class="layout-container bg-body-secondary d-flex">
-      {% if not is_popup %}
-        <div class="sidebar collapse collapse-horizontal bg-body flex-column shadow-sm"  id="main-menu">
-          <div class="mx-1">
-            <div class="my-4 position-relative">
-              <div id="sidenav-toggler-wrapper" class="sidenav-toggler-wrapper rounded-circle position-absolute bg-body-secondary p-2 m-0">
-                <a id="sidenav-toggler" class="sidenav-toggler bg-primary text-bg-primary rounded-circle p-1" role="button" data-bs-toggle="collapse" data-bs-target=".sidenav-collapsible" aria-expanded="true" aria-controls=".sidenav-collapsible">
-                  <i class="bi bi-chevron-left icon-shrink"></i>
-                  <i class="bi bi-chevron-right icon-expand"></i>
-                </a>
+      {% block menu %}
+        {% if not is_popup %}
+          <div class="sidebar collapse collapse-horizontal bg-body flex-column shadow-sm"  id="main-menu">
+            <div class="mx-1">
+              <div class="my-4 position-relative">
+                <div id="sidenav-toggler-wrapper" class="sidenav-toggler-wrapper rounded-circle position-absolute bg-body-secondary p-2 m-0">
+                  <a id="sidenav-toggler" class="sidenav-toggler bg-primary text-bg-primary rounded-circle p-1" role="button" data-bs-toggle="collapse" data-bs-target=".sidenav-collapsible" aria-expanded="true" aria-controls=".sidenav-collapsible">
+                    <i class="bi bi-chevron-left icon-shrink"></i>
+                    <i class="bi bi-chevron-right icon-expand"></i>
+                  </a>
+                </div>
+                <button class="sidebar-dismiss-menu btn float-end" type="button" aria-label="{% translate 'Close' %}" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu">
+                  <i class="bi bi-x"></i>
+                </button>
+                {% block branding %}{% endblock %}
               </div>
-              <button class="sidebar-dismiss-menu btn float-end" type="button" aria-label="{% translate 'Close' %}" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu">
-                <i class="bi bi-x"></i>
-              </button>
-              {% block branding %}{% endblock %}
+              {% include 'sidenav_menu.html' %}
             </div>
-            {% include 'sidenav_menu.html' %}
           </div>
-        </div>
-      {% endif %}
+        {% endif %}
+      {% endblock menu %}
       <div class="layout-content container-fluid p-2">
         {% if not is_popup %}
           <nav class="navbar navbar-expand-lg bg-body shadow-sm">
@@ -55,50 +57,24 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
               {% block search %}
-                <form class="d-flex gap-2 ms-2" role="search">
-                  <i class="bi bi-search d-none d-lg-inline-block navbar-text"></i>
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-secondary" type="submit">
-                    <span class="d-none d-lg-inline-block">{% translate "Search" %}</span>
-                    <i class="bi bi-search d-inline-block d-lg-none"></i>
-                  </button>
-                </form>
+                {% if not djbs.SEARCH_URL is None %}
+                  <form class="d-flex gap-2 ms-2" role="search" action="{{ djbs.SEARCH_URL }}">
+                    <i class="bi bi-search d-none d-lg-inline-block navbar-text"></i>
+                    <input class="form-control" type="search" placeholder="{% translate "Search" %}" aria-label="Search" name="{{ djbs.SEARCH_PARAM }}">
+                    <button class="btn btn-outline-secondary" type="submit">
+                      <span class="d-none d-lg-inline-block">{% translate "Search" %}</span>
+                      <i class="bi bi-search d-inline-block d-lg-none"></i>
+                    </button>
+                  </form>
+                {% endif %}
               {% endblock %}
               <div class="navbar-nav me-auto ms-2 actions object-tools">
                 {% block object-tools %}{% endblock %}
                 {% block nav-global %}{% endblock %}
               </div>
               <div class="navbar-nav">
-                <div class="nav-item dropdown">
-                  <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="{% translate 'Toggle theme' %}">
-                    <i class="bi bi-circle-half my-1 theme-icon-active" data-icon-name="bi-circle-half"></i>
-                    <span class="d-lg-none ms-2" id="bd-theme-text">{% translate "Toggle theme" %}</span>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-                    <li>
-                      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-                        <i class="bi bi-sun-fill me-2 opacity-50" data-icon-name="bi-sun-fill"></i>
-                        {% translate "Light" %}
-                        <i class="bi bi-check2 ms-auto d-none"></i>
-                      </button>
-                    </li>
-                    <li>
-                      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                        <i class="bi bi-moon-stars-fill me-2 opacity-50" data-icon-name="bi-moon-stars-fill"></i>
-                        {% translate "Dark" %}
-                        <i class="bi bi-check2 ms-auto d-none"></i>
-                      </button>
-                    </li>
-                    <li>
-                      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-                        <i class="bi bi-circle-half me-2 opacity-50" data-icon-name="bi-circle-half"></i>
-                        {% translate "Auto" %}
-                        <i class="bi bi-check2 ms-auto d-none"></i>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
                 {% block usertools %}
+                  {% include "color_theme_toggle.html" %}
                   {% if has_permission %}
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="bi bi-person-fill btn btn-outline-secondary rounded-circle"></i>

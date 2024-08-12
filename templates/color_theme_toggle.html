@@ -1,0 +1,30 @@
+{% load i18n %}
+<div class="nav-item dropdown">
+  <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="{% translate 'Toggle theme' %}">
+    <i class="bi bi-circle-half my-1 theme-icon-active" data-icon-name="bi-circle-half"></i>
+    <span class="d-lg-none ms-2" id="bd-theme-text">{% translate "Toggle theme" %}</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+        <i class="bi bi-sun-fill me-2 opacity-50" data-icon-name="bi-sun-fill"></i>
+        {% translate "Light" %}
+        <i class="bi bi-check2 ms-auto d-none"></i>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+        <i class="bi bi-moon-stars-fill me-2 opacity-50" data-icon-name="bi-moon-stars-fill"></i>
+        {% translate "Dark" %}
+        <i class="bi bi-check2 ms-auto d-none"></i>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+        <i class="bi bi-circle-half me-2 opacity-50" data-icon-name="bi-circle-half"></i>
+        {% translate "Auto" %}
+        <i class="bi bi-check2 ms-auto d-none"></i>
+      </button>
+    </li>
+  </ul>
+</div>
