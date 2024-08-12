@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% translate 'Page not found' %}{% endblock %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+  <div class="d-flex flex-column flex-md-row justify-content-center align-items-center p-2 w-100 h-100 gap-5">
+    <div class="flex-shrink-0">
+      <img src="{% static 'img/Http404.gif' %}" alt="{% translate 'Page not found' %}">
+    </div>
+    <div class="card flex-grow-1 px-5">
+      <div class="card-body">
+        <h5 class="card-title">{% translate "Ops!!!!!" %}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{% translate 'Page not found' %}</h6>
+        <p class="card-text">{% translate 'We’re sorry, but the requested page could not be found.' %}</p>
+        <a href="{% url "admin:index" %}" class="card-link">{% translate "Home" %}</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
