@@ -1,0 +1,41 @@
+{% if show %}
+  {% block date-hierarchy-toplinks %}
+    <nav class="nav mb-3">
+      {% block date-hierarchy-back %}
+        {% if back %}
+          <a href="{{ back.link }}" class="nav-link icon-link icon-link-hover badge text-bg-light me-2 date-back">
+            <i class="bi bi-arrow-left-short"></i>
+            {{ back.title }}
+          </a>
+        {% endif %}
+      {% endblock %}
+      {% block date-hierarchy-choices %}
+        {% for choice in choices %}
+          {% if choice.link %}
+            <a href="{{ choice.link }}" class="nav-link badge text-bg-light me-2">
+              {{ choice.title }}
+            </a>
+          {% else %}
+            <span class="navbar-text badge text-dark me-2">{{ choice.title }}</span>
+          {% endif %}
+        {% endfor %}
+      {% endblock %}
+    </nav>
+  {% endblock %}
+{% endif %}
+
+{% comment %} 
+<nav class="toplinks">
+{% block date-hierarchy-toplinks %}
+{% block date-hierarchy-back %}
+{% if back %}<a href="{{ back.link }}" class="date-back">&lsaquo; {{ back.title }}</a>{% endif %}
+{% endblock %}
+{% block date-hierarchy-choices %}
+{% for choice in choices %}
+{% if choice.link %}<a href="{{ choice.link }}">{{ choice.title }}</a>{% else %}{{ choice.title }}{% endif %}
+{% endfor %}
+{% endblock %}
+{% endblock %}
+</nav>
+{% endif %}
+{% endcomment %}
