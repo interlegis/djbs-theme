@@ -1,5 +1,7 @@
-<input type="date"
-       name="{{ widget.name }}"
+<input type="time" 
+       name="{{ widget.name }}" 
+       id="timeInput"
        {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
        {% include "django/forms/widgets/attrs.html" %}
+       class="form-control" 
        style="width: max-content;">
