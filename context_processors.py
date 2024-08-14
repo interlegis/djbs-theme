@@ -1,4 +1,4 @@
-from djbs import djbst_settings, djbs_constants
+from . import djbst_settings, djbs_constants
 
 
 def sets(requests):
