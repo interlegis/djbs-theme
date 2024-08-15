@@ -3,5 +3,6 @@
        id="timeInput"
        {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
        {% include "django/forms/widgets/attrs.html" %}
+       step="3"
        class="form-control" 
        style="width: max-content;">
