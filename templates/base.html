@@ -50,76 +50,78 @@
         {% endif %}
       {% endblock menu %}
       <div class="layout-content container-fluid p-2">
-        {% if not is_popup %}
-          <nav class="navbar navbar-expand-lg bg-body shadow-sm">
-            <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              {% block search %}
-                {% if not djbs.SEARCH_URL is None %}
-                  <form class="d-flex gap-2 ms-2" role="search" action="{{ djbs.SEARCH_URL }}">
-                    <i class="bi bi-search d-none d-lg-inline-block navbar-text"></i>
-                    <input class="form-control" type="search" placeholder="{% translate "Search" %}" aria-label="Search" name="{{ djbs.SEARCH_PARAM }}">
-                    <button class="btn btn-outline-secondary" type="submit">
-                      <span class="d-none d-lg-inline-block">{% translate "Search" %}</span>
-                      <i class="bi bi-search d-inline-block d-lg-none"></i>
-                    </button>
-                  </form>
-                {% endif %}
-              {% endblock %}
-              <div class="navbar-nav me-auto ms-2 actions object-tools">
-                {% block object-tools %}{% endblock %}
-                {% block nav-global %}{% endblock %}
-              </div>
-              <div class="navbar-nav">
-                {% block usertools %}
-                  {% include "color_theme_toggle.html" %}
-                  {% if has_permission %}
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="bi bi-person-fill btn btn-outline-secondary rounded-circle"></i>
-                      <span class="d-lg-none ms-2">{% translate "User tools" %}</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      {% block userlinks %}
-                          {% if site_url %}
-                            <li><a  class="dropdown-item" href="{{ site_url }}">{% translate 'View site' %}</a></li>
-                          {% endif %}
-                          {% if user.is_active and user.is_staff %}
-                              {% url 'django-admindocs-docroot' as docsroot %}
-                              {% if docsroot %}
-                                <li><a  class="dropdown-item" href="{{ docsroot }}">{% translate 'Documentation' %}</a></li>
-                              {% endif %}
-                          {% endif %}
-                          {% if user.has_usable_password %}
-                            <li><a  class="dropdown-item" href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a></li>
-                          {% endif %}
-                          <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
-                              {% csrf_token %}
-                              <button class="dropdown-item" type="submit">{% translate 'Log out' %}</button>
-                          </form>
-                      {% endblock %}
-                    </ul>
+        {% block navbar %}
+          {% if not is_popup %}
+            <nav class="navbar navbar-expand-lg bg-body shadow-sm">
+              <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                {% block search %}
+                  {% if not djbs.SEARCH_URL is None %}
+                    <form class="d-flex gap-2 ms-2" role="search" action="{{ djbs.SEARCH_URL }}">
+                      <i class="bi bi-search d-none d-lg-inline-block navbar-text"></i>
+                      <input class="form-control" type="search" placeholder="{% translate "Search" %}" aria-label="Search" name="{{ djbs.SEARCH_PARAM }}">
+                      <button class="btn btn-outline-secondary" type="submit">
+                        <span class="d-none d-lg-inline-block">{% translate "Search" %}</span>
+                        <i class="bi bi-search d-inline-block d-lg-none"></i>
+                      </button>
+                    </form>
                   {% endif %}
                 {% endblock %}
+                <div class="navbar-nav me-auto ms-2 actions object-tools">
+                  {% block object-tools %}{% endblock %}
+                  {% block nav-global %}{% endblock %}
+                </div>
+                <div class="navbar-nav">
+                  {% block usertools %}
+                    {% include "color_theme_toggle.html" %}
+                    {% if has_permission %}
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-fill btn btn-outline-secondary rounded-circle"></i>
+                        <span class="d-lg-none ms-2">{% translate "User tools" %}</span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        {% block userlinks %}
+                            {% if site_url %}
+                              <li><a  class="dropdown-item" href="{{ site_url }}">{% translate 'View site' %}</a></li>
+                            {% endif %}
+                            {% if user.is_active and user.is_staff %}
+                                {% url 'django-admindocs-docroot' as docsroot %}
+                                {% if docsroot %}
+                                  <li><a  class="dropdown-item" href="{{ docsroot }}">{% translate 'Documentation' %}</a></li>
+                                {% endif %}
+                            {% endif %}
+                            {% if user.has_usable_password %}
+                              <li><a  class="dropdown-item" href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a></li>
+                            {% endif %}
+                            <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                                {% csrf_token %}
+                                <button class="dropdown-item" type="submit">{% translate 'Log out' %}</button>
+                            </form>
+                        {% endblock %}
+                      </ul>
+                    {% endif %}
+                  {% endblock %}
+                </div>
               </div>
-            </div>
-          </nav>
-          {% block nav-breadcrumbs %}
-            <nav aria-label="{% translate 'Breadcrumbs' %}">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                  <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
-                </li>
-                {% block breadcrumbs %}
-                  {% if title %}
-                    <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
-                  {% endif %}
-                {% endblock %}
-              </ol>
             </nav>
-          {% endblock %}
-        {% endif %}
+            {% block nav-breadcrumbs %}
+              <nav aria-label="{% translate 'Breadcrumbs' %}">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+                  </li>
+                  {% block breadcrumbs %}
+                    {% if title %}
+                      <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                    {% endif %}
+                  {% endblock %}
+                </ol>
+              </nav>
+            {% endblock %}
+          {% endif %}
+        {% endblock navbar %}
         <div id="main" class="main">
           <main id="content-start" class="content" tabindex="-1">
             {% block messages %}
