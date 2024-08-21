@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n djbs_extras %}
 {% if result_hidden_fields %}
   <div class="hiddenfields">{# DIV for HTML validation #}
   {% for item in result_hidden_fields %}{{ item }}{% endfor %}
@@ -16,7 +16,7 @@
                 {% if header.sortable %}
                   {% if header.sort_priority > 0 %}
                     <div class="sortoptions">
-                      <a class="sortremove" href="{{ header.url_remove }}" title="{% translate "Remove from sorting" %}"><i class="bi bi-x"></i></a>
+                      <a class="sortremove" href="{{ header.url_remove }}" title="{% translate "Remove from sorting" %}">{% icon "dismiss" %}</i></a>
                       <a href="{{ header.url_toggle }}" class="toggle {{ header.ascending|yesno:'ascending,descending' }}" title="{% translate "Toggle sorting" %}"><i class="bi {{ header.ascending|yesno:'bi-arrow-down-short,bi-arrow-up-short' }}"></i></a>
                       {% if num_sorted_fields > 1 %}<span class="sortpriority badge text-bg-secondary small rounded-pill" title="{% blocktranslate with priority_number=header.sort_priority %}Sorting priority: {{ priority_number }}{% endblocktranslate %}">{{ header.sort_priority }}</span>{% endif %}
                     </div>

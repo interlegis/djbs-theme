@@ -1,11 +1,11 @@
+{% load djbs_extras %}
 {% if show %}
   {% block date-hierarchy-toplinks %}
     <nav class="nav mb-3">
       {% block date-hierarchy-back %}
         {% if back %}
           <a href="{{ back.link }}" class="nav-link icon-link icon-link-hover badge text-bg-light me-2 date-back">
-            <i class="bi bi-arrow-left-short"></i>
-            {{ back.title }}
+            {% icon "back" %} {{ back.title }}
           </a>
         {% endif %}
       {% endblock %}

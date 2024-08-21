@@ -37,7 +37,7 @@
     }
 
     const themeSwitcherText = document.querySelector('#bd-theme-text');
-    const activeThemeIcon = document.querySelector('.theme-icon-active')
+    // const activeThemeIcon = document.querySelector('.theme-icon-active')
     const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
     const iconOfActiveBtn = btnToActive.querySelector(`[data-bs-theme-value="${theme}"] i.bi`).dataset.iconName
 
@@ -48,9 +48,6 @@
 
     btnToActive.classList.add('active')
     btnToActive.setAttribute('aria-pressed', 'true')
-    activeThemeIcon.classList.remove(activeThemeIcon.dataset.iconName)
-    activeThemeIcon.classList.add(iconOfActiveBtn)
-    activeThemeIcon.dataset.iconName = iconOfActiveBtn
     const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
     themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
 

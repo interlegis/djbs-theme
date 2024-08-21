@@ -7,7 +7,7 @@
         {% for option in field.field.widget.choices %}
           {% if option.0 != "" %}
             <button type="submit" form="changelist-form" class="nav-link action-button" title="{{ option.1 }}" name="action" value="{{ option.0 }}">
-              <i class="{% tool_icon_class option.0 cl %}"></i>
+              {% tool_icon option.0 cl %}
               <span class="text-tool-{{ option.0 }} d-lg-none">{{ option.1 }}</span>
             </button>
           {% endif %}
@@ -22,11 +22,11 @@
     {% if actions_selection_counter %}
       {% if cl.result_count != cl.result_list|length %}
         <a class="question nav-link ms-2 d-none" href="#" title="{% blocktranslate with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}">
-          <i class="bi bi-check-all"></i>
+          {% icon "check-all" %}
           <span class="d-lg-none">{% blocktranslate with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</span>
         </a>
         <a class="clear nav-link ms-2 d-none" href="#" title="{% translate "Clear selection" %}">
-          <i class="bi bi-eraser"></i>
+          {% icon "remove" %}
           <span class="d-lg-none">{% translate "Clear selection" %}</span>
         </a>
       {% endif %}

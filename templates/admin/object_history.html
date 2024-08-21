@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load i18n admin_urls %}
+{% load i18n admin_urls djbs_extras %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item"><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
@@ -36,12 +36,12 @@
               {% if action_list.number > 1 %}
                 <li class="page-item">
                   <a class="page-link" href="?{{ page_var }}=1" aria-label="{% translate 'First page' %}">
-                    <i class="bi bi-chevron-double-left"></i>
+                    {% icon "rewind" %}
                   </a>
                 </li>
                 <li class="page-item">
                   <a class="page-link" href="?{{ page_var }}={{ action_list.number|add:-1 }}" aria-label="{% translate 'Previous page' %}">
-                    <i class="bi bi-chevron-left"></i>
+                    {% icon "chevron-left" %}
                   </a>
                 </li>
               {% endif %}              
@@ -57,12 +57,12 @@
               {% if action_list.number < action_list.paginator.num_pages %}
                 <li class="page-item">
                   <a class="page-link" href="?{{ page_var }}={{ action_list.number|add:1 }}" aria-label="{% translate 'Next page' %}">
-                    <i class="bi bi-chevron-right"></i>
+                    {% icon "chevron-right" %}
                   </a>
                 </li>
                 <li class="page-item">
                   <a class="page-link" href="?{{ page_var }}={{ action_list.paginator.num_pages }}" aria-label="{% translate 'Last page' %}">
-                    <i class="bi bi-chevron-double-right"></i>
+                    {% icon "forward" %}
                   </a>
                 </li>
               {% endif %}

@@ -84,17 +84,17 @@
           {% if cl.is_facets_optional %}
             {% if cl.add_facets %}
               <a href="{{ cl.remove_facet_link }}" class="hidelink nav-link">
-                <i class="bi bi-eye-slash"></i> {% translate "Hide counts" %}
+                {% icon "hide" %} {% translate "Hide counts" %}
               </a>
             {% else %}
               <a href="{{ cl.add_facet_link }}" class="viewlink nav-link">
-                <i class="bi bi-eye"></i> {% translate "Show counts" %}
+                {% icon "show" %} {% translate "Show counts" %}
               </a>
             {% endif %}
           {% endif %}
           {% if cl.has_active_filters %}
             <a href="{{ cl.clear_all_filters_qs }}" class="nav-link">
-              <i class="bi bi-x"></i> {% translate "Clear all filters" %}
+              {% icon "dismiss" %} {% translate "Clear all filters" %}
             </a>
           {% endif %}
         </div>

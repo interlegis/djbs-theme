@@ -1,4 +1,4 @@
-{% load i18n admin_urls %}
+{% load i18n admin_urls djbs_extras %}
 <div class="submit-row btn-toolbar hstack justify-content-end my-2 gap-2{% if submit_buttons_position == "top" %} sticky-top{% endif %}">
   {% if submit_buttons_position == "top" %}
     <div class="btn-group" role="group">
@@ -6,25 +6,25 @@
   {% block submit-row %}
     {% if show_save %}
       <button type="submit" value="{% translate 'Save' %}" title="{% translate 'Save' %}" class="default btn btn-outline-success" name="_save">
-        <i class="bi bi-save"></i>
+        {% icon "save" %}
         {% if submit_buttons_position != "top" %}{% translate 'Save' %}{% endif %}
       </button>
     {% endif %}
     {% if show_save_as_new %}
       <button type="submit" value="{% translate 'Save as new' %}" title="{% translate 'Save as new' %}" class="btn btn-outline-success" name="_saveasnew">
-        <i class="bi bi-copy"></i>
+        {% icon "copy" %}
         {% if submit_buttons_position != "top" %}{% translate 'Save as new' %}{% endif %}
     {% endif %}
     {% if show_save_and_add_another %}
       <button type="submit" value="{% translate 'Save and add another' %}" title="{% translate 'Save and add another' %}" class="btn btn-outline-success" name="_addanother">
-        <i class="bi bi-plus-circle-dotted"></i>
+        {% icon "add" %}
         {% if submit_buttons_position != "top" %}{% translate 'Save and add another' %}{% endif %}
       </button>
     {% endif %}
     {% if show_save_and_continue %}
       {% with label=can_change|yesno:_("Save and continue editing,Save and view") %}
         <button type="submit" value="{{ label }}" text="{{ label }}" title="{{ label }}" class="btn btn-outline-success" name="_continue">
-          {% if can_change %}<i class="bi bi-pencil"></i>{% else %}<i class="bi bi-eye"></i>{% endif %}
+          {% if can_change %}{% icon "edit" %}{% else %}{% icon "show" %}{% endif %}
           {% if submit_buttons_position != "top" %}{{ label }}{% endif %}
         </button>
       {% endwith %}
@@ -32,14 +32,14 @@
     {% if show_close %}
       {% url opts|admin_urlname:'changelist' as changelist_url %}
       <a href="{% add_preserved_filters changelist_url %}" class="closelink btn btn-outline-success" title="{% translate 'Close' %}">
-        <i class="bi bi-x"></i>
+        {% icon "dismiss" %}
         {% if submit_buttons_position != "top" %}{% translate 'Close' %}{% endif %}
       </a>
     {% endif %}
     {% if show_delete_link and original %}
       {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
       <a href="{% add_preserved_filters delete_url %}" class="deletelink btn btn-outline-danger" title="{% translate "Delete" %}">
-        <i class="bi bi-trash2"></i>
+        {% icon "delete" %}
         {% if submit_buttons_position != "top" %}{% translate "Delete" %}{% endif %}
       </a>
     {% endif %}

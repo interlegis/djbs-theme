@@ -1,11 +1,11 @@
-{% load i18n static %}
+{% load i18n static djbs_extras %}
 {% if cl.search_fields %}
   <form class="d-flex gap-2 ms-2" role="search">
-    <i class="bi bi-search d-none d-lg-inline-block navbar-text"></i>
+    {% icon "search" "d-none d-lg-inline-block navbar-text" %}
     <input class="form-control" id="searchbar" type="search" name="{{ search_var }}" value="{{ cl.query }}" placeholder="{{ cl.search_help_text|default:'Search' }}" aria-label="{{ cl.search_help_text|default:'Search' }}">
     <button class="btn btn-outline-secondary" type="submit" value="{% translate 'Search' %}">
       <span class="d-none d-lg-inline-block">{% translate "Search" %}</span>
-      <i class="bi bi-search d-inline-block d-lg-none"></i>
+      {% icon "search" "d-inline-block d-lg-none" %}
     </button>
     {% if show_result_count %}
       <span class="navbar-text">

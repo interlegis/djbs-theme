@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load i18n static %}
+{% load i18n static djbs_extras %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
 
@@ -30,7 +30,15 @@
       {% for entry in admin_log %}
         <li class="list-group-item{% if entry.is_deletion or not entry.get_admin_url %} disabled{% endif %} d-flex justify-content-between align-items-start{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
           <a class="icon-link icon-link-hover{% if entry.is_deletion or not entry.get_admin_url %} disabled{% endif %}" href="{{ entry.get_admin_url|default:'#' }}">
-            <i class="bi bi-{% if entry.is_addition %}plus-square{% endif %}{% if entry.is_change %}pencil-square{% endif %}{% if entry.is_deletion %}trash2{% endif %}" aria-label="{% if entry.is_addition %}{% translate 'Added:' %}{% elif entry.is_change %}{% translate 'Changed:' %}{% elif entry.is_deletion %}{% translate 'Deleted:' %}{% endif %}"></i>
+            {% if entry.is_addition %}
+              {% icon "add" aria_label=_('Added:') %}
+            {% endif %}
+            {% if entry.is_change %}
+              {% icon "edit" aria_label=_('Changed:') %}
+            {% endif %}
+            {% if entry.is_deletion %}
+              {% icon "delete" aria_label=_('Deleted:') %}
+            {% endif %}
             {{ entry.object_repr }}
           </a>
             {% if entry.content_type %}

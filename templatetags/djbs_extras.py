@@ -3,8 +3,8 @@ import yaml
 from pathlib import Path
 from urllib.parse import parse_qs
 from django import template
-from django.utils.safestring import mark_safe
 from django.contrib.admin.views.main import PAGE_VAR
+from django.utils.safestring import mark_safe
 from djbs import djbst_settings
 
 register = template.Library()
@@ -23,21 +23,43 @@ def show_menu(context, menu_id):
 
 
 @register.simple_tag
-def tool_icon_class(tool_name, obj=None):
+def tool_icon(tool_name, obj=None, classes="", **kwargs):
     if obj is not None:
         action = None
         if hasattr(obj, tool_name):
             action = getattr(obj, tool_name)
-        elif hasattr(obj, "model_admin") and hasattr(
-            obj.model_admin, tool_name
-        ):
+        elif hasattr(obj, "model_admin") and hasattr(obj.model_admin, tool_name):
             action = getattr(obj.model_admin, tool_name)
         if hasattr(action, "djbs_icon"):
-            return action.djbs_icon
-    if tool_name in djbst_settings["TOOL_ICONS"]:
-        return djbst_settings["TOOL_ICONS"][tool_name]
+            icon_name = action.djbs_icon
+        else:
+            icon_name = tool_name
+    if icon_name in djbst_settings["ICONS"]:
+        icon_class = djbst_settings["ICONS"][icon_name]
     else:
-        return djbst_settings["TOOL_ICONS"]["default"]
+        icon_class = icon_name
+    attrs = " ".join(
+        [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
+    )
+    return mark_safe(
+        djbst_settings["ICON_TAG_PATTERN"].format(
+            icon=icon_class, classes=classes, attrs=attrs
+        )
+    )
+
+
+@register.simple_tag
+def icon(icon_name, classes="", **kwargs):
+    attrs = " ".join(
+        [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
+    )
+    if icon_name not in djbst_settings["ICONS"]:
+        icon_name = "default"
+    return mark_safe(
+        djbst_settings["ICON_TAG_PATTERN"].format(
+            icon=djbst_settings["ICONS"][icon_name], classes=classes, attrs=attrs
+        )
+    )
 
 
 @register.simple_tag

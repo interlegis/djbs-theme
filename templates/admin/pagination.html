@@ -6,12 +6,12 @@
       {% if cl.page_num > 1 %}
         <li class="page-item">
           <a class="page-link" href="{% page_link cl 1 %}" aria-label="{% translate 'First page' %}">
-            <i class="bi bi-chevron-double-left"></i>
+            {% icon "rewind" %}
           </a>
         </li>
         <li class="page-item">
           <a class="page-link" href="{% page_link cl cl.page_num|add:-1 %}" aria-label="{% translate 'Previous page' %}">
-            <i class="bi bi-chevron-left"></i>
+            {% icon "chevron-left" %}
           </a>
         </li>
       {% endif %}
@@ -27,12 +27,12 @@
       {% if cl.page_num < cl.paginator.num_pages %}
         <li class="page-item">
           <a class="page-link" href="{% page_link cl cl.page_num|add:1 %}" aria-label="{% translate 'Next page' %}">
-            <i class="bi bi-chevron-right"></i>
+            {% icon "chevron-right" %}
           </a>
         </li>
         <li class="page-item">
           <a class="page-link" href="{% page_link cl cl.paginator.num_pages %}" aria-label="{% translate 'Last page' %}">
-            <i class="bi bi-chevron-double-right"></i>
+            {% icon "forward" %}
           </a>
         </li>
       {% endif %}

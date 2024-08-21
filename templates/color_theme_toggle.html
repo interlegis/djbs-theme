@@ -1,29 +1,31 @@
-{% load i18n %}
+{% load i18n djbs_extras %}
 <div class="nav-item dropdown">
   <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="{% translate 'Toggle theme' %}">
-    <i class="bi bi-circle-half my-1 theme-icon-active" data-icon-name="bi-circle-half"></i>
+    {% icon "theme-auto" "my-1 bs-theme-icon auto" %}
+    {% icon "theme-light" "my-1 bs-theme-icon light" %}
+    {% icon "theme-dark" "my-1 bs-theme-icon dark" %}
     <span class="d-lg-none ms-2" id="bd-theme-text">{% translate "Toggle theme" %}</span>
   </button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
     <li>
       <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-        <i class="bi bi-sun-fill me-2 opacity-50" data-icon-name="bi-sun-fill"></i>
+        {% icon "theme-light" "me-2 opacity-50" %}
         {% translate "Light" %}
-        <i class="bi bi-check2 ms-auto d-none"></i>
+        {% icon "check" "ms-auto d-none" %}
       </button>
     </li>
     <li>
       <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-        <i class="bi bi-moon-stars-fill me-2 opacity-50" data-icon-name="bi-moon-stars-fill"></i>
+        {% icon "theme-dark" "me-2 opacity-50" %}
         {% translate "Dark" %}
-        <i class="bi bi-check2 ms-auto d-none"></i>
+        {% icon "check" "ms-auto d-none" %}
       </button>
     </li>
     <li>
       <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-        <i class="bi bi-circle-half me-2 opacity-50" data-icon-name="bi-circle-half"></i>
+        {% icon "theme-auto" "me-2 opacity-50" %}
         {% translate "Auto" %}
-        <i class="bi bi-check2 ms-auto d-none"></i>
+        {% icon "check" "ms-auto d-none" %}
       </button>
     </li>
   </ul>
