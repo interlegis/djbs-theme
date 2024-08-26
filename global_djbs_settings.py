@@ -45,3 +45,11 @@ DJBSTHEME_DEFAULTS = {
         "viewsite": "bi bi-globe2",
     },
 }
+
+ADMIN_CHANGEABLES = [
+    "CHECK_AS_SWITCH",
+    "FILTER_STYLE",
+    "FIELDSET_STYLE",
+    "INLINESET_STYLE",
+    "BADGERIZE_FACETS",
+]

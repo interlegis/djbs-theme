@@ -1,0 +1,11 @@
+{% for inline_admin_formset in inline_admin_formsets %}
+<li class="nav-item" role="presentation">
+  <button class="nav-link{% if first_active and forloop.first %} active{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-tab" data-bs-toggle="tab" data-bs-target="#{{ inline_admin_formset.formset.prefix }}-group" type="button" role="tab" aria-controls="{{ inline_admin_formset.formset.prefix }}-group"{% if forloop.first %} aria-selected="true"{% endif %}>
+    {% if inline_admin_formset.formset.max_num == 1 %}
+      {{ inline_admin_formset.opts.verbose_name|upper }}
+    {% else %}
+      {{ inline_admin_formset.opts.verbose_name_plural|upper }}
+    {% endif %}
+  </button>
+</li>
+{% endfor %}

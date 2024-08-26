@@ -2,6 +2,7 @@
 {% load i18n admin_urls static admin_list djbs_extras %}
 
 {% block extrastyle %}
+  {% djbs_admin cl.model_admin %}
   {{ block.super }}
   {% if cl.formset or action_form %}
     <script src="{% url 'admin:jsi18n' %}"></script>

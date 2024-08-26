@@ -6,6 +6,7 @@ from django import template
 from django.contrib.admin.views.main import PAGE_VAR
 from django.utils.safestring import mark_safe
 from djbs import djbst_settings
+from djbs.global_djbs_settings import ADMIN_CHANGEABLES
 
 register = template.Library()
 
@@ -105,4 +106,14 @@ def no_filter_params(cl):
 def valueof(querystr, param):
     if param in querystr:
         return parse_qs(querystr[1:])[param][0]
+    return ""
+
+
+@register.simple_tag(takes_context=True)
+def djbs_admin(context, admin):
+    djbs = context.get("djbs")
+    if djbs:
+        for key in ADMIN_CHANGEABLES:
+            if hasattr(admin, key.lower()):
+                djbs[key] = getattr(admin, key.lower())
     return ""
