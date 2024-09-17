@@ -1,0 +1,7 @@
+<input type="email" 
+       name="{{ widget.name }}" 
+       id="{{ widget.attrs.id }}" 
+       placeholder="name@example.com" 
+       class="form-control" 
+       {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %} 
+       {% include "django/forms/widgets/attrs.html" %}>

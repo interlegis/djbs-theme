@@ -1,0 +1,6 @@
+<input type="number"
+       name="{{ widget.name }}"
+       {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
+       {% include "django/forms/widgets/attrs.html" %}
+       class="form-control"
+       style="width: max-content;">
