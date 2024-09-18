@@ -23,11 +23,11 @@ To set up a development environment (assuming you have an Ubuntu installation wi
     $ django-admin startproject djbstheme .
   - Clone this repository into your project:
     $ git clone https://github.com/interlegis/djbs-theme.git djbs
-  - Configure the project by changing the application's settings.py.
-    - Use your preferred text editor to edit the ./djbstheme/settings.py file:
-    - Find the INSTALLED_APPS list and add, before the 'django.contrib.admin' app, the 'djbs' and 'django.forms' app
-    - Add the FORM_RENDERER = 'django.forms.renderers.TemplatesSetting' configuration
-
+  - Configure the project by changing the application's `settings.py`.
+    - Use your preferred text editor to edit the `./djbstheme/settings.py` file:
+    - Find the `INSTALLED_APPS` list and add, before the `'django.contrib.admin'` app, the `'djbs'` and `'django.forms'` apps.
+    - Add the `FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'` configuration.
+    - In the `TEMPLATES` section, add `"djbs.context_processors.sets"` to the `context_processors` list inside `OPTIONS`.
 That's it! Your project is configured.
 
 ---
