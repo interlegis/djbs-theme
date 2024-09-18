@@ -5,8 +5,8 @@ from urllib.parse import parse_qs
 from django import template
 from django.contrib.admin.views.main import PAGE_VAR
 from django.utils.safestring import mark_safe
-from djbs import djbst_settings
-from djbs.global_djbs_settings import ADMIN_CHANGEABLES
+from . import djbst_settings
+from ..global_djbs_settings import ADMIN_CHANGEABLES
 
 register = template.Library()
 
