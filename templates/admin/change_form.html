@@ -3,12 +3,12 @@
 
 {% block extrahead %}{{ block.super }}{% djbs_admin adminform.model_admin %}
 <script src="{% url 'admin:jsi18n' %}"></script>
-{#{ media }#}
+{{ media }}
 {% endblock %}
 
 {% block extrastyle %}
   {{ block.super }}
-  <!--link rel="stylesheet" href="{% static "admin/css/forms.css" %}" -->
+  <link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
 {% endblock %}
 
 {% block coltype %}colM{% endblock %}

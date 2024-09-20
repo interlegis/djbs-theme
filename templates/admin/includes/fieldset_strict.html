@@ -1,0 +1,32 @@
+<fieldset class="card mb-3 shadow-sm module aligned {{ fieldset.classes }}">
+  {% if fieldset.name and djbs.FIELDSET_STYLE == djbsc.STYLE_CARD %}<h5 class="card-header">{{ fieldset.name }}</h5>{% endif %}
+  <div class="card-body">
+    {% if fieldset.description %}<h6 class="card-subtitle">{{ fieldset.description|safe }}</h6>{% endif %}
+    {% for line in fieldset %}
+      <div class="row row-cols-md-{{ line.fields|length }} mb-2 form-row{% if line.fields|length == 1 and line.errors %} errors{% endif %}{% if not line.has_visible_field %} d-none hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+        {% for field in line %}
+          <div class="col">
+            <div class="{% if not line.fields|length == 1 %} fieldBox{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} is_invalid{% endif %}{% if field.field.is_hidden %} d-none{% endif %}{% elif field.is_checkbox %} checkbox-row d-flex{% endif %}">
+              {% if field.is_checkbox %}
+                {{ field.field }}{{ field.label_tag }}
+              {% else %}
+                {{ field.label_tag }}
+                {% if field.is_readonly %}
+                  <div class="readonly">{{ field.contents }}</div>
+                {% else %}
+                  {{ field.field }}
+                {% endif %}
+              {% endif %}
+              {% if line.fields|length == 1 %}{{ line.errors }}{% else %}{{ field.errors }}{% endif %}
+            </div>
+            {% if field.field.help_text %}
+              <div class="form-text help"{% if field.field.id_for_label %} id="{{ field.field.id_for_label }}_helptext"{% endif %}>
+                <div>{{ field.field.help_text|safe }}</div>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</fieldset>
