@@ -1,5 +1,5 @@
-{% load i18n djbs_extras %}{% djbs_admin cl.model_admin %}
-{% if filter_style == "accordion" %}
+{% load i18n djbs_extras %}{% get_theme_var "FILTER_STYLE" cl.model_admin as FILTER_STYLE %}
+{% if FILTER_STYLE == "accordion" %}
   <div class="accordion-item" data-filter-title="{{ title }}">
     <span class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ spec.field_path }}_filter" aria-expanded="false" aria-controls="collapse_{{ spec.field_path }}_filter">
@@ -19,7 +19,19 @@
     </div>
   </div>    
 {% endif %}
-{% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_ACCORDION %}
+{% if FILTER_STYLE == "classic" %}
+  <details data-filter-title="{{ title }}" open>
+    <summary>
+      {% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}
+    </summary>
+    <div class="list-group list-group-flush">
+    {% for choice in choices %}
+      <a class="list-group-item list-group-item-action d-flex{% if choice.selected %} active selected{% endif %}" href="{{ choice.query_string|iriencode }}">{{ choice.display|badgerize }}</a>
+    {% endfor %}
+    </ul>
+  </details>
+{% endif %}
+{% if FILTER_STYLE == "dropdown" %}
   <div class="dropdown">
     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
       {% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}
@@ -35,7 +47,7 @@
     </ul>
   </div>
 {% endif %}
-{% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_FORM %}
+{% if FILTER_STYLE == "form" %}
   <div class="mb-3">
     <label for="form_{{ spec.field_path }}_filter" class="form-label">{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}</label>
     <select id="form_{{ spec.field_path }}_filter" name="{{ spec.lookup_kwarg }}" class="form-select" aria-label="{{ title }}" data-filter-title="{{ title }}" data-live-search="true">
@@ -45,18 +57,3 @@
     </select>
   </div>
 {% endif %}
-
-{% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_CLASSIC %}
-  <details data-filter-title="{{ title }}" open>
-    <summary>
-      {% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}
-    </summary>
-    <ul>
-    {% for choice in choices %}
-      <li{% if choice.selected %} class="selected"{% endif %}>
-      <a href="{{ choice.query_string|iriencode }}">{{ choice.display }}</a></li>
-    {% endfor %}
-    </ul>
-  </details>
-{% endif %}
-  

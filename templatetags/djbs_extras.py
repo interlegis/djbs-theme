@@ -64,8 +64,12 @@ def icon(icon_name, classes="", **kwargs):
 
 
 @register.simple_tag
-def get_theme_var(var_name):
-    return djbst_settings[var_name] if var_name in djbst_settings else ""
+def get_theme_var(var_name, obj=None):
+    return (
+        getattr(obj, var_name)
+        if hasattr(obj, var_name)
+        else djbst_settings[var_name] if var_name in djbst_settings else ""
+    )
 
 
 @register.simple_tag
