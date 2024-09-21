@@ -7,7 +7,7 @@ from django.contrib.admin.views.main import PAGE_VAR
 from django.utils.safestring import mark_safe
 from .. import djbst_settings
 from ..global_djbs_settings import ADMIN_CHANGEABLES
-from djbs.context_processors import sets
+from ..context_processors import sets
 from django.test import RequestFactory
 
 register = template.Library()
