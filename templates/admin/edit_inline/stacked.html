@@ -1,38 +1,64 @@
-{% load i18n admin_urls %}
-<div class="js-inline-admin-formset inline-group"
+{% load i18n admin_urls djbs_extras %}
+<div class="card shadow-sm {% if djbs.INLINESET_STYLE == djbsc.STYLE_CAD %} mb-3{% elif djbs.INLINESET_STYLE == djbsc.STYLE_TAB %} tab-pane fade{% if forloop.first and djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %} show active{% endif %}{% elif djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %} accordion-item{% endif %} js-inline-admin-formset inline-group"
      id="{{ inline_admin_formset.formset.prefix }}-group"
      data-inline-type="stacked"
      data-inline-formset="{{ inline_admin_formset.inline_formset_data }}">
-<fieldset class="module {{ inline_admin_formset.classes }}" aria-labelledby="{{ inline_admin_formset.formset.prefix }}-heading">
-  {% if inline_admin_formset.is_collapsible %}<details><summary>{% endif %}
-  <h2 id="{{ inline_admin_formset.formset.prefix }}-heading" class="inline-heading">
-  {% if inline_admin_formset.formset.max_num == 1 %}
-    {{ inline_admin_formset.opts.verbose_name|capfirst }}
-  {% else %}
-    {{ inline_admin_formset.opts.verbose_name_plural|capfirst }}
+  {% if djbs.INLINESET_STYLE == djbsc.STYLE_CARD or djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}
+    <h6 class="{{ djbs.INLINESET_STYLE }}-header">
+      {% if djbs.INLINESET_STYLE == "accordion" %}<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ inline_admin_formset.formset.prefix }}-collapse" {% if forloop.first and djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %}aria-expanded="true" {% endif %} aria-controls="{{ inline_admin_formset.formset.prefix }}-collapse">{% endif %}
+      {% if inline_admin_formset.formset.max_num == 1 %}
+        {{ inline_admin_formset.opts.verbose_name|upper }}
+      {% else %}
+        {{ inline_admin_formset.opts.verbose_name_plural|upper }}
+      {% endif %}
+      {% if djbs.INLINESET_STYLE == "accordion" %}</button>{% endif %}
+    </h6>
   {% endif %}
-  </h2>
-  {% if inline_admin_formset.is_collapsible %}</summary>{% endif %}
-{{ inline_admin_formset.formset.management_form }}
-{{ inline_admin_formset.formset.non_form_errors }}
-
-{% for inline_admin_form in inline_admin_formset %}<div class="inline-related{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form last-related{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
-  <h3><b>{{ inline_admin_formset.opts.verbose_name|capfirst }}:</b> <span class="inline_label">{% if inline_admin_form.original %}{{ inline_admin_form.original }}{% if inline_admin_form.model_admin.show_change_link and inline_admin_form.model_admin.has_registered_model %} <a href="{% url inline_admin_form.model_admin.opts|admin_urlname:'change' inline_admin_form.original.pk|admin_urlquote %}" class="{{ inline_admin_formset.has_change_permission|yesno:'inlinechangelink,inlineviewlink' }}">{% if inline_admin_formset.has_change_permission %}{% translate "Change" %}{% else %}{% translate "View" %}{% endif %}</a>{% endif %}
-{% else %}#{{ forloop.counter }}{% endif %}</span>
-      {% if inline_admin_form.show_url %}<a href="{{ inline_admin_form.absolute_url }}">{% translate "View on site" %}</a>{% endif %}
-    {% if inline_admin_formset.formset.can_delete and inline_admin_formset.has_delete_permission and inline_admin_form.original %}<span class="delete">{{ inline_admin_form.deletion_field.field }} {{ inline_admin_form.deletion_field.label_tag }}</span>{% endif %}
-  </h3>
-  {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
-
-  {% with parent_counter=forloop.counter0 %}
-    {% for fieldset in inline_admin_form %}
-      {% include "admin/includes/fieldset.html" with heading_level=4 id_prefix=parent_counter id_suffix=forloop.counter0 %}
-    {% endfor %}
-  {% endwith %}
-
-  {% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
-  {% if inline_admin_form.fk_field %}{{ inline_admin_form.fk_field.field }}{% endif %}
-</div>{% endfor %}
-  {% if inline_admin_formset.is_collapsible %}</details>{% endif %}
-</fieldset>
+  <div id="{{ inline_admin_formset.formset.prefix }}-collapse" class="card-body {% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}accordion-collapse collapse{% if forloop.first and djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %} show active{% endif %}{% endif %} tabular inline-related {% if forloop.last %}last-related{% endif %}"{% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}  data-bs-parent="#fieldsetAccordion"{% endif %}>
+    <fieldset class="{% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}accordion-body{% endif %} module {{ inline_admin_formset.classes }}" aria-labelledby="{{ inline_admin_formset.formset.prefix }}-heading"{% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %} data-bs-parent="#fieldsetAccordion"{% endif %}>
+      {{ inline_admin_formset.formset.management_form }}
+      {{ inline_admin_formset.formset.non_form_errors }}
+      <div class="row row-cols-1 row-cols-md-2 g-2">
+        {% for inline_admin_form in inline_admin_formset %}
+          <div class="col">
+            <div class="card inline-related{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form last-related{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
+              <div class="card-body">
+                <h5 class="card-title d-flex">
+                  {% if inline_admin_form.original %}
+                    <span class="inline_label me-auto">{{ inline_admin_form.original }}</span>
+                    {% if inline_admin_form.model_admin.show_change_link and inline_admin_form.model_admin.has_registered_model %}
+                      {% with link_label=inline_admin_formset.has_change_permission|yesno:_("Change,View") link_icon=inline_admin_formset.has_change_permission|yesno:"edit,show" %}
+                        <a href="{% url inline_admin_form.model_admin.opts|admin_urlname:'change' inline_admin_form.original.pk|admin_urlquote %}" class="{{ inline_admin_formset.has_change_permission|yesno:'inlinechangelink,inlineviewlink' }}" data-bs-toggle="tooltip" data-bs-title="{{ link_label }}" aria-label="{{ link_label }}">
+                          {% icon link_icon %}
+                        </a>
+                      {% endwith %}
+                    {% endif %}
+                  {% else %}
+                    <span class="inline_label me-auto">#{{ forloop.counter }}</span>
+                  {% endif %}
+                  {% if inline_admin_form.show_url %}
+                    <a href="{{ inline_admin_form.absolute_url }}" arial-label="{% translate "View on site" %}" data-bs-toggle="tooltip" data-bs-title="{% translate "View on site" %}">{% icon "link" %}</a>
+                  {% endif %}
+                  {% if inline_admin_formset.formset.can_delete and inline_admin_formset.has_delete_permission and inline_admin_form.original %}
+                    <span class="delete form-check form-switch">
+                      {{ inline_admin_form.deletion_field.field }}
+                    </span>
+                  {% endif %}
+                </h5>
+                {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
+                {% with parent_counter=forloop.counter0 %}
+                  {% for fieldset in inline_admin_form %}
+                    {% include "admin/includes/fieldset_strict.html" with heading_level=4 id_prefix=parent_counter id_suffix=forloop.counter0 %}
+                  {% endfor %}
+                {% endwith %}
+                {% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
+                {% if inline_admin_form.fk_field %}{{ inline_admin_form.fk_field.field }}{% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {% if inline_admin_formset.is_collapsible %}</details>{% endif %}
+    </fieldset>
+  </div>
 </div>
