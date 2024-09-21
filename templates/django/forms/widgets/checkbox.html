@@ -1,5 +1,6 @@
 {% load djbs_extras %}
-{% if djbs.CHECK_AS_SWITCH %}
+{% get_check_as_switch as check_as_switch %}
+{% if check_as_switch %}
   <div class="form-check form-switch">
     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
   </div>
