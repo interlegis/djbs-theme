@@ -7,8 +7,6 @@ from django.contrib.admin.views.main import PAGE_VAR
 from django.utils.safestring import mark_safe
 from .. import djbst_settings
 from ..global_djbs_settings import ADMIN_CHANGEABLES
-from ..context_processors import sets
-from django.test import RequestFactory
 
 register = template.Library()
 
@@ -125,8 +123,3 @@ def djbs_admin(context, admin):
     return ""
 
 
-@register.simple_tag(takes_context=True)
-def get_check_as_switch(context):
-    request = RequestFactory().get('/')
-    djbs = sets(request)
-    return djbs['djbs']['CHECK_AS_SWITCH']

@@ -1,17 +1,11 @@
 {% load djbs_extras %}
-{% get_check_as_switch as check_as_switch %}
+{% get_theme_var 'CHECK_AS_SWITCH' as check_as_switch %}
 {% if check_as_switch %}
   <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" role="switch"
-    name="{{ widget.name }}"
-    {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
-    {% include "django/forms/widgets/attrs.html" %}>
+    {% include "django/forms/widgets/input.html" with djbs_form_control_class="form-check-input" %}
   </div>
 {% else %}
   <div class="form-check">
-    <input class="form-check-input" type="checkbox"
-    name="{{ widget.name }}"
-    {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
-    {% include "django/forms/widgets/attrs.html" %}>
+    {% include "django/forms/widgets/input.html" with djbs_form_control_class="form-check-input" %}
   </div>
 {% endif %}
