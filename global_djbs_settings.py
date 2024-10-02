@@ -1,5 +1,5 @@
 from pathlib import Path
-from djbs.djbs_constants import *
+from .djbs_constants import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
