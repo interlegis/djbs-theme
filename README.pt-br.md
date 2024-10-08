@@ -2,30 +2,30 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/interlegis/djbs-theme/blob/main/README.md)
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/interlegis/djbs-theme/blob/main/README.pt-br.md)
 
-Django Admin Bootstrap theme
+Tema Bootstrap para Django Admin
 
-djbs is a theme for django-admin based on the bootstrap framework. It is an adaptation of the django.contrib.admin app templates and the django.forms templates to use bootstrap components.
+djbs é um tema para o django-admin baseado no framework Bootstrap. É uma adaptação dos templates do app django.contrib.admin e dos templates do django.forms para utilizar componentes do Bootstrap.
 
-## Requirements:
+## Requisitos:
 
 - Python>3.10
 - Django>5.1
 
-## External packages (via CDN):
+## Pacotes externos (via CDN):
 
 - Bootstrap=5.3
 
-## getting it
+## obtendo-o
 
-You can get djbs-theme by using pip:
+Você pode obter o djbs-theme usando pip:
 
 ```
 $ pip install djbs-theme
 ```
 
-## Installing it
+## Instalando-o
 
-To enable `djbs-theme` in your project you need to add `djbs` and `django.forms` to `INSTALLED_APPS` in your project's `settings.py` file, just before the `'django.contrib.admin'` entry:
+Para habilitar o `djbs-theme` em seu projeto, você precisa adicionar `djbs` e `django.forms` ao `INSTALLED_APPS` no arquivo `settings.py` do seu projeto, logo antes da entrada `'django.contrib.admin'`:
 
 ```python
     INSTALLED_APPS = (
@@ -37,13 +37,13 @@ To enable `djbs-theme` in your project you need to add `djbs` and `django.forms`
     )
 ```
 
-Set the form renderer to TemplatesSetting, adding the above code:
+Defina o renderizador de formulários para TemplatesSetting, adicionando o código abaixo:
 
 ```python
     FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 ```
 
-Add `djbs.context_processors.sets` to the `context_processors` list inside `OPTIONS`:
+Adicione `djbs.context_processors.sets` à lista de `context_processors` dentro de `OPTIONS`:
 
 ```python
     TEMPLATES = [
@@ -64,11 +64,11 @@ Add `djbs.context_processors.sets` to the `context_processors` list inside `OPTI
     ]
 ```
 
-## Customizing
+## Customizando
 
-To customize the `djbs-theme` you need to add a `DJBSTHEME` dictionary into your projects `settings.py` file.
+Para customizar o `djbs-theme`, você precisa adicionar um dicionário `DJBSTHEME` no arquivo `settings.py` do seu projeto.
 
-The default `djbs-theme` settings is:
+As configurações padrão do `djbs-theme` são:
 
 ```python
     DJBSTHEME_DEFAULTS = {
@@ -115,63 +115,63 @@ The default `djbs-theme` settings is:
     }
 ```
 
-You can override any settings. Omitted settings remain the default setting.
+Você pode sobrescrever qualquer configuração. Configurações omitidas permanecem com as definições padrão.
 
-## Documentation
+## Documentação
 
-The djbs-theme documentation is in development yet.
+A documentação do djbs-theme ainda está em desenvolvimento.
 
-## Contribute
+## Contribuir
 
-To set up a development environment (assuming you have an Ubuntu installation with Python3 already installed):
+Para configurar um ambiente de desenvolvimento (assumindo que você tenha uma instalação do Ubuntu com Python3 já instalado):
 
-  - Install the venv module:
+  - Instale o módulo venv:
 
     ```bash
     $ sudo apt update && sudo apt install python3-venv
     ```
 
-  - Create the project directory:
+  - Crie o diretório do projeto:
 
     ```bash
     $ mkdir djbs-theme && cd djbs-theme
     ```
 
-  - Create a virtualenv in the project:
+  - Crie um virtualenv no projeto:
     
     ```bash
     $ python3 -m venv .venv/djbs-theme
     ```
 
-  - Activate the virtualenv:
+  - Ative o virtualenv:
     
     ```bash
     $ source .venv/djbs-theme/bin/activate
     ```
 
-  - Install the necessary python packages:
+  - Instale os pacotes python necessários:
     
     ```bash
     $ pip install pip ipython django pyYaml django-debug-toolbar --upgrade
     ```
 
-  - Create the django-project:
+  - Crie o projeto django:
 
     ```bash
     $ django-admin startproject djbstheme .
     ```
 
-  - Clone this repository into your project:
+  - Clone este repositório em seu projeto:
     
     ```bash
     $ git clone https://github.com/interlegis/djbs-theme.git djbs
     ```
 
-  - Configure the project by changing the application's `settings.py`.
+  - Configure o projeto alterando o arquivo `settings.py` da aplicação.
 
-    - Use your preferred text editor to edit the `./djbstheme/settings.py` file.
-    - Find the `INSTALLED_APPS` list and add, before the `'django.contrib.admin'` app, the `'djbs'` and `'django.forms'` apps.
-    - Add the `FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'` configuration.
-    - add `"djbs.context_processors.sets"` to the `context_processors` list inside `OPTIONS`.
+    - Use seu editor de texto preferido para editar o arquivo `./djbstheme/settings.py`.
+    - Encontre a lista `INSTALLED_APPS` e adicione, antes do app `'django.contrib.admin'`, os apps `'djbs'` e `'django.forms'`.
+    - Adicione a configuração `FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'`.
+    - Adicione `"djbs.context_processors.sets"` à lista `context_processors` dentro de `OPTIONS`.
 
-That's it! Your project is configured.
+É isso! Seu projeto está configurado.

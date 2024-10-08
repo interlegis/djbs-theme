@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "djbs-theme_sesostris"
+dynamic = ["version"]
+authors = [
+    {name="Sesóstris Vieira", email="sevieira@senado.leg.br"},
+]
+maintainers = [
+    {name="Sesóstris Vieira", email="sevieira@senado.leg.br"},
+]
+description = "A Django admin theme based on bootstrap 5.3"
+readme = "README.md"
+keywords = ["django", "bootstrap", "theme", "admin theme"]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: User Interfaces",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Framework :: Django :: 5.0",
+]
+dependencies = [
+    "PyYAML>6.0",
+    "Django>5.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/interlegis/djbs-theme"
+Documentation = "https://github.com/interlegis/djbs-theme/wiki"
+Repository = "https://github.com/interlegis/djbs-theme"
+Issues = "https://github.com/interlegis/djbs-theme/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/djbs"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
