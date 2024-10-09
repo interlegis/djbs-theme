@@ -1,7 +1,7 @@
 {% load i18n static %}
 <link rel="stylesheet" href="{% static 'css/related_widget_wrapper.css' %}">
 <div class="related-widget-wrapper" style="height: 100%;" {% if not model_has_limit_choices_to %}data-model-ref="{{ model_name }}"{% endif %}>
-    <!-- Renderiza o widget original, mas oculto -->
+    <!-- Renderiza o widget original, mas oculto para extrair as infos pro duallistbox -->
     <div id="original-widget" style="display: none;">
         {{ rendered_widget }}
     </div>
