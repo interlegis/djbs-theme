@@ -1,0 +1,24 @@
+.related-widget-wrapper {
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    height: auto; 
+}
+
+
+.duallistbox {
+    width: 100%; 
+    height: 100px; 
+}
+
+.duallistbox option {
+    border: 1px solid #ccc; 
+    padding: 5px; 
+    border-radius: 4px; 
+    margin: 2px 0; 
+}
+
+.duallistbox option.selected {
+    border-color: #007bff; 
+    background-color: #e7f0ff; 
+}
