@@ -7,7 +7,10 @@
     </div>
     
     <!-- Duallistbox Visível -->
-    <select multiple="multiple" name="duallistbox_demo1[]" id="duallistbox_demo1" class="duallistbox">
+    <select multiple="multiple" 
+            name="duallistbox_demo1[]" 
+            id="{% if widget.id_for_label %}{{ widget.id_for_label }}{% else %}duallistbox_demo1{% endif %}" 
+            class="{% if widget.attrs.class %}{{ widget.attrs.class }}{% else %}duallistbox{% endif %}">
         <!-- As opções serão preenchidas aqui via JavaScript -->
     </select>
 
@@ -113,8 +116,3 @@
         updateDualListbox();
     });
 </script>
-
-
-
-
-
