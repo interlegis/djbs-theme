@@ -167,3 +167,5 @@ cython_debug/
 .pydevproject
 .settings
 .vscode/
+
+_version.py
