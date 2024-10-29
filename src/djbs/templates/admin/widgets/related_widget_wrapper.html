@@ -1,19 +1,6 @@
 {% load i18n static %}
-<link rel="stylesheet" href="{% static 'css/related_widget_wrapper.css' %}">
-<div class="related-widget-wrapper" style="height: 100%;" {% if not model_has_limit_choices_to %}data-model-ref="{{ model_name }}"{% endif %}>
-    <!-- Renderiza o widget original, mas oculto para extrair as infos pro duallistbox -->
-    <div id="original-widget" style="display: none;">
-        {{ rendered_widget }}
-    </div>
-    
-    <!-- Duallistbox Visível -->
-    <select multiple="multiple" 
-            name="duallistbox_demo1[]" 
-            id="{% if widget.id_for_label %}{{ widget.id_for_label }}{% else %}duallistbox_demo1{% endif %}" 
-            class="{% if widget.attrs.class %}{{ widget.attrs.class }}{% else %}duallistbox{% endif %}">
-        <!-- As opções serão preenchidas aqui via JavaScript -->
-    </select>
-
+<div class="related-widget-wrapper" {% if not model_has_limit_choices_to %}data-model-ref="{{ model_name }}"{% endif %}>
+    {{ rendered_widget }}
     {% block links %}
         {% spaceless %}
         {% if not is_hidden %}
@@ -52,67 +39,3 @@
         {% endspaceless %}
     {% endblock %}
 </div>
-
-<script>
-    $(document).ready(function() {
-        // Função para sincronizar o DualListBox com o rendered_widget
-        function updateDualListbox() {
-            // Extrair as opções do select oculto do rendered_widget
-            const renderedOptions = $('#original-widget select[name="{{ name }}"] option');
-            
-            // Limpar o DualListBox
-            $('#duallistbox_demo1').empty();
-            
-            // Adicionar as novas opções ao DualListBox
-            renderedOptions.each(function() {
-                $('#duallistbox_demo1').append($(this).clone());
-            });
-
-            // Atualizar visualmente o DualListBox sem reinicializar
-            $('#duallistbox_demo1').bootstrapDualListbox('refresh');
-        }
-
-        // Sincronizar as seleções do DualListBox com o select oculto
-        function syncDualListboxToRenderedWidget() {
-            const selectedValues = $('#duallistbox_demo1').val() || [];
-            
-            // Limpar o select original oculto
-            $('#original-widget select[name="{{ name }}"]').empty();
-            
-            // Adicionar as opções selecionadas no DualListBox ao rendered_widget
-            selectedValues.forEach(function(value) {
-                const optionText = $('#duallistbox_demo1 option[value="' + value + '"]').text();
-                $('#original-widget select[name="{{ name }}"]').append(new Option(optionText, value, true, true));
-            });
-        }
-
-        // Inicializa o DualListBox
-        $('#duallistbox_demo1').bootstrapDualListbox({
-            nonSelectedListLabel: '',
-            selectedListLabel: '',
-            moveOnSelect: false,
-            infoText: false,
-            filterPlaceHolder: 'Pesquisar',
-            selectorMinimalHeight: 400, // Ajuste conforme necessário
-        });
-
-        // Adicionar ícones manuais para o Bootstrap 5
-        $('.moveall').html('<i class="bi bi-chevron-double-right"></i>');
-        $('.removeall').html('<i class="bi bi-chevron-double-left"></i>');
-        $('.move').html('<i class="bi bi-chevron-right"></i>');
-        $('.remove').html('<i class="bi bi-chevron-left"></i>');
-
-        // Monitorar mudanças no select do rendered_widget e atualizar o DualListBox
-        $('#original-widget select[name="{{ name }}"]').on('DOMSubtreeModified', function() {
-            updateDualListbox();
-        });
-
-        // Atualizar o select oculto antes de salvar o formulário
-        $('form').on('submit', function() {
-            syncDualListboxToRenderedWidget(); // Sincroniza os valores antes do envio
-        });
-
-        // Trigger para sincronizar as seleções iniciais
-        updateDualListbox();
-    });
-</script>
