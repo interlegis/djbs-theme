@@ -1,6 +1,7 @@
 {% load i18n static %}
 <div class="related-widget-wrapper" {% if not model_has_limit_choices_to %}data-model-ref="{{ model_name }}"{% endif %}>
-    {{ rendered_widget }}
+    {{ rendered_widget }} 
+
     {% block links %}
         {% spaceless %}
         {% if not is_hidden %}
@@ -39,3 +40,29 @@
         {% endspaceless %}
     {% endblock %}
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const renderedWidget = document.querySelector(".related-widget-wrapper");
+
+        function applyStyles() {
+            // Aplica as classes do Bootstrap
+            renderedWidget.querySelectorAll("select").forEach(select => {
+                select.classList.add("form-select");
+            });
+
+            renderedWidget.querySelectorAll("input[type='text']").forEach(input => {
+                input.classList.add("form-control");
+            });
+
+        }
+
+        applyStyles();
+
+        // Observa mudanças no rendered_widget e aplica estilos novamente
+        const observer = new MutationObserver(applyStyles);
+        observer.observe(renderedWidget, { childList: true, subtree: true });
+    });
+</script>
+
