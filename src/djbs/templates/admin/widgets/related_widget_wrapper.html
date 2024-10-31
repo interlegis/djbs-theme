@@ -62,7 +62,10 @@
             // Seleciona "Choose" e "Remove" usando as classes e substitui pelo ícone no widget específico
             const chooseLink = widget.querySelector(".selector-add");
             const removeLink = widget.querySelector(".selector-remove");
+            const chooseAllLink = widget.querySelector(".selector-chooseall");
+            const removeAllLink = document.querySelector("#id_grupos_remove_all_link");
 
+        
             if (chooseLink) {
                 chooseLink.classList.remove("selector-add"); // Remove classe padrão
                 chooseLink.innerHTML = '<i class="bi bi-arrow-right"></i>'; // seta para direita
@@ -71,6 +74,16 @@
             if (removeLink) {
                 removeLink.classList.remove("selector-remove"); // Remove classe padrão
                 removeLink.innerHTML = '<i class="bi bi-arrow-left"></i>'; // seta para esquerda
+            }
+
+            if (chooseAllLink) {
+                chooseAllLink.classList.remove("selector-chooseall"); // Remove classe padrão
+                chooseAllLink.classList.add("custom-chooseall"); // Adiciona uma classe personalizada para estilo
+                chooseAllLink.innerHTML = 'Selecionar Tudo <i class="bi bi-arrow-right-circle"></i>'; // seta em círculo
+            }
+            if (removeAllLink) {
+                removeAllLink.classList.add("custom-clearall");
+                removeAllLink.innerHTML = '<i class="bi bi-arrow-left"></i> Remover Tudo';
             }
         }
 

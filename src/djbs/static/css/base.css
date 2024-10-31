@@ -66,3 +66,20 @@ html[data-bs-theme="light"] .bs-theme-icon:not(.light),
 html[data-bs-theme="dark"] .bs-theme-icon:not(.dark) {
   display: none;
 }
+
+/* Custom styles para o botão "Selecionar Tudo" */
+.custom-chooseall {
+  color: gray; /* Cor de quando está inativo */
+  text-decoration: none; /* Remove a cor azul e o sublinhado */
+  cursor: not-allowed; /* Cursor de inativo */
+}
+
+.custom-chooseall.active {
+  color: white; /* Cor de quando está ativo - tema escuro */
+  cursor: pointer; /* Cursor padrão de link */
+}
+
+/* Ajuste para tema claro */
+html[data-bs-theme="light"] .custom-chooseall.active {
+  color: black; /* Cor de quando está ativo - tema claro */
+}
