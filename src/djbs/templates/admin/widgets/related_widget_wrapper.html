@@ -1,7 +1,6 @@
 {% load i18n static %}
 <div class="related-widget-wrapper" {% if not model_has_limit_choices_to %}data-model-ref="{{ model_name }}"{% endif %}>
     {{ rendered_widget }} 
-
     {% block links %}
         {% spaceless %}
         {% if not is_hidden %}
@@ -44,25 +43,25 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const renderedWidget = document.querySelector(".related-widget-wrapper");
+        const renderedWidgets = document.querySelectorAll(".related-widget-wrapper");
 
-        function applyStyles() {
-            // Adiciona classes do Bootstrap aos elementos de formulário, se não aplicadas
-            renderedWidget.querySelectorAll("select").forEach(select => {
+        function applyStyles(widget) {
+            // Adiciona classes do Bootstrap aos elementos de formulário dentro do widget específico
+            widget.querySelectorAll("select").forEach(select => {
                 if (!select.classList.contains("form-select")) {
                     select.classList.add("form-select");
                 }
             });
 
-            renderedWidget.querySelectorAll("input[type='text']").forEach(input => {
+            widget.querySelectorAll("input[type='text']").forEach(input => {
                 if (!input.classList.contains("form-control")) {
                     input.classList.add("form-control");
                 }
             });
 
-            // Seleciona "Choose" e "Remove" usando as classes e substitui pelo ícone
-            const chooseLink = renderedWidget.querySelector(".selector-add");
-            const removeLink = renderedWidget.querySelector(".selector-remove");
+            // Seleciona "Choose" e "Remove" usando as classes e substitui pelo ícone no widget específico
+            const chooseLink = widget.querySelector(".selector-add");
+            const removeLink = widget.querySelector(".selector-remove");
 
             if (chooseLink) {
                 chooseLink.classList.remove("selector-add"); // Remove classe padrão
@@ -75,14 +74,18 @@
             }
         }
 
-        applyStyles();
+        // Aplica o estilo em cada widget relacionado
+        renderedWidgets.forEach(applyStyles);
 
-        // Observa mudanças uma vez e desativa após a aplicação inicial
-        const observer = new MutationObserver(function(mutationsList, observer) {
-            applyStyles();
-            observer.disconnect(); // Desativa o observer após a primeira aplicação
+        // Observa mudanças em cada widget e aplica estilos novamente, mas desativa após a aplicação inicial
+        renderedWidgets.forEach(widget => {
+            const observer = new MutationObserver(function(mutationsList, observer) {
+                applyStyles(widget);
+                observer.disconnect(); // Desativa o observer após a primeira aplicação
+            });
+
+            observer.observe(widget, { childList: true, subtree: true });
         });
-
-        observer.observe(renderedWidget, { childList: true, subtree: true });
     });
 </script>
+
