@@ -60,12 +60,6 @@
   display: none;
 }
 
-html:not([data-bs-theme]) .bs-theme-icon:not(.auto),
-html[data-bs-theme="auto"] .bs-theme-icon:not(.auto),
-html[data-bs-theme="light"] .bs-theme-icon:not(.light),
-html[data-bs-theme="dark"] .bs-theme-icon:not(.dark) {
-  display: none;
-}
 
 /* Custom styles para o botão "Selecionar Tudo" */
 .custom-chooseall {
@@ -79,7 +73,29 @@ html[data-bs-theme="dark"] .bs-theme-icon:not(.dark) {
   cursor: pointer; /* Cursor padrão de link */
 }
 
-/* Ajuste para tema claro */
-html[data-bs-theme="light"] .custom-chooseall.active {
-  color: black; /* Cor de quando está ativo - tema claro */
+.custom-clearall {
+  color: gray; /* Cor de quando está inativo */
+  text-decoration: none; /* Remove a cor azul e o sublinhado */
+  cursor: not-allowed; /* Cursor de inativo */
+}
+
+.custom-clearall.active {
+  color: white; /* Cor de quando está ativo - tema escuro */
+  cursor: pointer; /* Cursor padrão de link */
+}
+
+.arrow{
+  color: white; /* Cor para a seta da direita */
+}
+
+html:not([data-bs-theme]) .bs-theme-icon:not(.auto),
+html[data-bs-theme="auto"] .bs-theme-icon:not(.auto),
+html[data-bs-theme="light"] .bs-theme-icon:not(.light),
+html[data-bs-theme="dark"] .bs-theme-icon:not(.dark) {
+  display: none;
+}
+html[data-bs-theme="light"] .custom-chooseall.active,
+html[data-bs-theme="light"] .custom-clearall.active,
+html[data-bs-theme="light"] .arrow {
+  color: black;
 }
