@@ -47,22 +47,42 @@
         const renderedWidget = document.querySelector(".related-widget-wrapper");
 
         function applyStyles() {
-            // Aplica as classes do Bootstrap
+            // Adiciona classes do Bootstrap aos elementos de formulário, se não aplicadas
             renderedWidget.querySelectorAll("select").forEach(select => {
-                select.classList.add("form-select");
+                if (!select.classList.contains("form-select")) {
+                    select.classList.add("form-select");
+                }
             });
 
             renderedWidget.querySelectorAll("input[type='text']").forEach(input => {
-                input.classList.add("form-control");
+                if (!input.classList.contains("form-control")) {
+                    input.classList.add("form-control");
+                }
             });
 
+            // Seleciona "Choose" e "Remove" usando as classes e substitui pelo ícone
+            const chooseLink = renderedWidget.querySelector(".selector-add");
+            const removeLink = renderedWidget.querySelector(".selector-remove");
+
+            if (chooseLink) {
+                chooseLink.classList.remove("selector-add"); // Remove classe padrão
+                chooseLink.innerHTML = '<i class="bi bi-arrow-right"></i>'; // seta para direita
+            }
+
+            if (removeLink) {
+                removeLink.classList.remove("selector-remove"); // Remove classe padrão
+                removeLink.innerHTML = '<i class="bi bi-arrow-left"></i>'; // seta para esquerda
+            }
         }
 
         applyStyles();
 
-        // Observa mudanças no rendered_widget e aplica estilos novamente
-        const observer = new MutationObserver(applyStyles);
+        // Observa mudanças uma vez e desativa após a aplicação inicial
+        const observer = new MutationObserver(function(mutationsList, observer) {
+            applyStyles();
+            observer.disconnect(); // Desativa o observer após a primeira aplicação
+        });
+
         observer.observe(renderedWidget, { childList: true, subtree: true });
     });
 </script>
-
