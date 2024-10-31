@@ -98,8 +98,8 @@
         const removeLink = widget.querySelector(".selector-remove");
         const chooseAllLink = widget.querySelector(".selector-chooseall");
         const removeAllLink = widget.querySelector(".selector-clearall");
-
-    
+        const searchIcon = widget.querySelectorAll(".search-label-icon");
+        
         if (chooseLink) {
             chooseLink.classList.remove("selector-add"); // Remove classe padrão
             chooseLink.innerHTML = '<i class="bi bi-arrow-right-circle arrow"></i>'; // seta para direita
@@ -113,13 +113,21 @@
         if (chooseAllLink) {
             chooseAllLink.classList.remove("selector-chooseall"); // Remove classe padrão
             chooseAllLink.classList.add("custom-chooseall"); // Adiciona uma classe personalizada para estilo
-            chooseAllLink.innerHTML = 'Selecionar Tudo <i class="bi bi-arrow-right-circle"></i>'; // seta em círculo
+            chooseAllLink.innerHTML = 'Choose All <i class="bi bi-arrow-right-circle large-icon"></i>'; // seta em círculo
         }
         if (removeAllLink) {
             removeAllLink.classList.remove("selector-clearall"); // Remove classe padrão
             removeAllLink.classList.add("custom-clearall");
-            removeAllLink.innerHTML = '<i class="bi bi-arrow-left-circle"></i> Remover Tudo';
+            removeAllLink.innerHTML = '<i class="bi bi-arrow-left-circle"></i> Remove All';
         }
+
+        if (searchIcon) {
+          searchIcon.forEach(icon => {
+              icon.classList.remove("search-label-icon");
+              icon.parentElement.classList.add("label-large"); // Aplica a classe ao label que envolve o ícone
+              icon.innerHTML = '<i class="bi bi-search arrow"></i>';
+          });
+      }
     }
 
     // Aplica o estilo em cada widget relacionado

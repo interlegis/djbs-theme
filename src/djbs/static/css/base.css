@@ -88,6 +88,11 @@
   color: white; /* Cor para a seta da direita */
 }
 
+
+.label-large {
+  font-size: 18px; /* Ajuste o tamanho conforme necessário */
+}
+
 html:not([data-bs-theme]) .bs-theme-icon:not(.auto),
 html[data-bs-theme="auto"] .bs-theme-icon:not(.auto),
 html[data-bs-theme="light"] .bs-theme-icon:not(.light),
