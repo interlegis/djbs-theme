@@ -142,5 +142,6 @@
 
         observer.observe(widget, { childList: true, subtree: true });
     });
-});
+  }
+);
 })()
