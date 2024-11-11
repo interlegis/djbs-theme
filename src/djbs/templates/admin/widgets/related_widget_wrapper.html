@@ -1,6 +1,6 @@
 {% load i18n static %}
 <div class="related-widget-wrapper" {% if not model_has_limit_choices_to %}data-model-ref="{{ model_name }}"{% endif %}>
-    {{ rendered_widget }}
+    {{ rendered_widget }} 
     {% block links %}
         {% spaceless %}
         {% if not is_hidden %}
@@ -39,3 +39,4 @@
         {% endspaceless %}
     {% endblock %}
 </div>
+
