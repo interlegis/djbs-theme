@@ -4,7 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "djbs-theme_sesostris"
-dynamic = ["version"]
+#dynamic = ["version"]
+version = "0.0.1"
 authors = [
     {name="Sesóstris Vieira", email="sevieira@senado.leg.br"},
 ]
