@@ -54,9 +54,11 @@
           {% if not is_popup %}
             <nav class="navbar navbar-expand-lg bg-body shadow-sm">
               <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
+                {% block navbar-branding %}
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                {% endblock navbar-branding %}
                 {% block search %}
                   {% if not djbs.SEARCH_URL is None %}
                     <form class="d-flex gap-2 ms-2" role="search" action="{{ djbs.SEARCH_URL }}">
@@ -69,7 +71,7 @@
                     </form>
                   {% endif %}
                 {% endblock %}
-                <div class="navbar-nav me-auto ms-2 actions object-tools">
+                <div class="{% block toolclass %}navbar-nav me-auto ms-2 actions object-tools{% endblock toolclass %}">
                   {% block object-tools %}{% endblock %}
                   {% block nav-global %}{% endblock %}
                 </div>

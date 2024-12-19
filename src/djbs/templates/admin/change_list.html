@@ -15,12 +15,9 @@
   {% endif %}
   <script>
     $(document).ready(function() {
-      console.log("document.ready");
       $("#changelist-filter-form").submit(function() {
-        console.log("changelist-filter-form.submit");
         $(this).find(":input").each(function() {
           const input = $(this);
-          console.log(input.attr("name"));
           if (input.val() == "") {
             input.attr("disabled", "disabled");
           }
