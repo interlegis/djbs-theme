@@ -31,7 +31,7 @@
   {% endif %}
 {% endblock %}
 
-{% block content %}
+{% block content %}{% get_theme_var 'FIELDSET_STYLE' as fieldset_style %}{% get_theme_var 'INLINESET_STYLE' as inlineset_style %}
   <div id="content-main">
     <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %}method="post" id="{{ opts.model_name }}_form" class="{% if errors %}was-validated{% else %}needs-validation{% endif %}" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
       <div>
@@ -50,34 +50,30 @@
         {% endif %}
 
         {% block field_sets %}
-          {% if djbs.FIELDSET_STYLE == djbsc.STYLE_TAB %}
+          {% if fieldset_style == djbsc.STYLE_TAB and adminform.fieldsets|length > 1 or fieldset_style == djbsc.STYLE_TAB and inlineset_style == djbsc.STYLE_TAB and inline_admin_formsets|length > 0 %}
             <div role="tablist">
               <ul class="nav nav-underline" id="fieldsetTabs">
                 {% for fieldset in adminform %}
                   <li class="nav-item" role="presentation">
                     <button class="nav-link{% if forloop.first %} active{% endif %}" id="fieldsetTab-{{ forloop.counter }}" data-bs-toggle="tab" data-bs-target="#fieldsetTabPanel-{{ forloop.counter }}" type="button" role="tab" aria-controls="fieldsetTabPanel-{{ forloop.counter }}"{% if forloop.first %} aria-selected="true"{% endif %}>
-                      {% if fieldset.name %}
-                        {{ fieldset.name|upper }}
-                      {% else %}
-                        {% blocktranslate with pos=forloop.counter %}DEFAULT {{ pos }}{% endblocktranslate %}
-                      {% endif %}
+                      {{ fieldset.name|default:opts.verbose_name|upper }}
                     </button>
                   </li>
                 {% endfor %}
-                {% if djbs.INLINESET_STYLE == djbsc.STYLE_TAB %}
+                {% if inlineset_style == djbsc.STYLE_TAB %}
                   {% include "admin/includes/change_form_tabs.html" with first_active=False %}
                 {% endif %}
               </ul>
             </div>
             <div class="tab-content" id="fieldsetTabContent">
-          {% elif djbs.FIELDSET_STYLE == djbsc.STYLE_ACCORDION %}
+          {% elif fieldset_style == djbsc.STYLE_ACCORDION %}
             <div class="accordion" id="fieldsetAccordion">
           {% endif %}
           {% for fieldset in adminform %}
-            {% include "admin/includes/fieldset.html" %}
+            {% include "admin/includes/fieldset.html" with fieldset_style=fieldset_style %}
           {% endfor %}
-          {% if djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %}
-            {% if DJBS.FIELDSET_STYLE == djbsc.STYLE_TAB or DJBS.FIELDSET_STYLE == djbsc.STYLE_ACCORDION %}
+          {% if fieldset_style != inlineset_style %}
+            {% if fieldset_style == djbsc.STYLE_TAB and adminform.fieldsets|length > 1 or fieldset_style == djbsc.STYLE_TAB and inlineset_style == djbsc.STYLE_TAB and inline_admin_formsets|length > 0 or fieldset_style == djbsc.STYLE_ACCORDION %}
               {# closes the div openned to tab/accordion layout #}
               {# but, if inlines uses the same layout, keep div open #}
               </div>
@@ -88,10 +84,10 @@
         {% block after_field_sets %}{% endblock %}
 
         {% block inline_field_sets %}
-          {% if djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %}
-            {% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}
+          {% if fieldset_style != inlineset_style %}
+            {% if inlineset_style == djbsc.STYLE_ACCORDION %}
               <div class="accordion" id="fieldsetAccordion">
-            {% elif djbs.INLINESET_STYLE == djbsc.STYLE_TAB %}
+            {% elif inlineset_style == djbsc.STYLE_TAB %}
               <ul class="nav nav-underline" id="fieldsetTabs" role="tablist">
                 {% include "admin/includes/change_form_tabs.html" with first_active=True %}
               </ul>
@@ -101,7 +97,7 @@
           {% for inline_admin_formset in inline_admin_formsets %}
             {% include inline_admin_formset.opts.template %}
           {% endfor %}
-          {% if djbs.INLINESET_STYLE == djbsc.STYLE_TAB or djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}
+          {% if inlineset_style == djbsc.STYLE_TAB or inlineset_style == djbsc.STYLE_ACCORDION %}
             </div> {# closes the div openned before for #}
           {% endif %} 
         {% endblock %}

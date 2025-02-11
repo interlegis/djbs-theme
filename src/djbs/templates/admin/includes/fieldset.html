@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if djbs.FIELDSET_STYLE == djbsc.STYLE_ACCORDION %}
+{% if fieldset_style == djbsc.STYLE_ACCORDION %}
   <div class="accordion-item">
     <h6 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fieldsetCollapse-{{ forloop.counter }}" {% if forloop.first %}aria-expanded="true" {% endif %} aria-controls="fieldsetCollapse-{{ forloop.counter }}">
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-{% elif djbs.FIELDSET_STYLE == djbsc.STYLE_TAB %}
+{% elif fieldset_style == djbsc.STYLE_TAB %}
   <div class="tab-pane fade{% if forloop.first %} show active{% endif %}" id="fieldsetTabPanel-{{ forloop.counter }}" role="tabpanel" aria-labelledby="fieldsetTab-{{ forloop.counter }}" tabindex="0">
     {% include "admin/includes/fieldset_strict.html" %}
   </div>

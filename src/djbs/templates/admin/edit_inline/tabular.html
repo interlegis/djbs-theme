@@ -15,87 +15,89 @@
     {{ inline_admin_formset.formset.management_form }}
     <fieldset class="{% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}accordion-body{% endif %} module {{ inline_admin_formset.classes }}">
       {{ inline_admin_formset.formset.non_form_errors }}
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th class="original"></th>
-            {% for field in inline_admin_formset.fields %}
-              <th class="column-{{ field.name }}{% if field.required %} required{% endif %}{% if field.widget.is_hidden %} d-none hidden{% endif %}">
-                {{ field.label|capfirst }}
-                {% if field.help_text %}
-                  {% icon "help" "text-info-emphasis ms-3 help help-tooltip" data_bs_toggle='tooltip' data_bs_title=field.help_text|striptags %}
-                {% endif %}
-              </th>
-            {% endfor %}
-            {% if inline_admin_formset.formset.can_delete and inline_admin_formset.has_delete_permission %}
-              <th><span class="float-end">{%icon "delete" data_bs_toggle='tooltip' data_bs_title=_('Delete?') %}</span></th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for inline_admin_form in inline_admin_formset %}
-            {% if inline_admin_form.form.non_field_errors %}
-              <tr class="row-form-errors">
-                <td colspan="{{ inline_admin_form|cell_count }}">
-                  {{ inline_admin_form.form.non_field_errors }}
-                </td>
-              </tr>
-            {% endif %}
-            <tr class="form-row {% if inline_admin_form.original or inline_admin_form.show_url %}has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
-              <td class="original">
-                {% if inline_admin_form.original or inline_admin_form.show_url %}
-                  <p class="d-flex gap-1">
-                    {% if inline_admin_form.original %}
-                      <span class="me-auto">{{ inline_admin_form.original }}</span>
-                      {% if inline_admin_form.model_admin.show_change_link and inline_admin_form.model_admin.has_registered_model %}
-                        {% with link_label=inline_admin_formset.has_change_permission|yesno:_("Change,View") link_icon=inline_admin_formset.has_change_permission|yesno:"edit,show" %}
-                          <a href="{% url inline_admin_form.model_admin.opts|admin_urlname:'change' inline_admin_form.original.pk|admin_urlquote %}" class="{{ inline_admin_formset.has_change_permission|yesno:'inlinechangelink,inlineviewlink' }}" data-bs-toggle="tooltip" data-bs-title="{{ link_label }}" aria-label="{{ link_label }}">
-                            {% icon link_icon %}
-                          </a>
-                        {% endwith %}
-                      {% endif %}
-                    {% endif %}
-                    {% if inline_admin_form.show_url %}
-                      <a href="{{ inline_admin_form.absolute_url }}" data-bs-toggle="tooltip" data-bs-title="{% translate "View on site" %}" aria-label="{% translate "View on site" %}">
-                        {% icon "viewsite" %}
-                      </a>
-                    {% endif %}
-                  </p>
-                {% endif %}
-                {% if inline_admin_form.needs_explicit_pk_field %}
-                  {{ inline_admin_form.pk_field.field }}
-                {% endif %}
-                {% if inline_admin_form.fk_field %}
-                  {{ inline_admin_form.fk_field.field }}
-                {% endif %}
-              </td>
-              {% for fieldset in inline_admin_form %}
-                {% for line in fieldset %}
-                  {% for field in line %}
-                    <td class="{% if field.field.name %}field-{{ field.field.name }}{% endif %}{% if field.field.is_hidden %} d-none hidden{% endif %}">
-                      {% if field.is_readonly %}
-                        <p>{{ field.contents }}</p>
-                      {% else %}
-                        {{ field.field.errors.as_ul }}
-                        {{ field.field }}
-                      {% endif %}
-                    </td>
-                  {% endfor %}
-                {% endfor %}
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="original"></th>
+              {% for field in inline_admin_formset.fields %}
+                <th class="column-{{ field.name }}{% if field.required %} required{% endif %}{% if field.widget.is_hidden %} d-none hidden{% endif %}">
+                  {{ field.label|capfirst }}
+                  {% if field.help_text %}
+                    {% icon "help" "text-info-emphasis ms-3 help help-tooltip" data_bs_toggle='tooltip' data_bs_title=field.help_text|striptags %}
+                  {% endif %}
+                </th>
               {% endfor %}
               {% if inline_admin_formset.formset.can_delete and inline_admin_formset.has_delete_permission %}
-                <td class="delete">
-                  {% if inline_admin_form.original %}
-                    <span class="delete form-check form-switch float-end">
-                      {{ inline_admin_form.deletion_field.field }}
-                    </span>
-                  {% endif %}
-                </td>
+                <th><span class="float-end">{%icon "delete" data_bs_toggle='tooltip' data_bs_title=_('Delete?') %}</span></th>
               {% endif %}
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for inline_admin_form in inline_admin_formset %}
+              {% if inline_admin_form.form.non_field_errors %}
+                <tr class="row-form-errors">
+                  <td colspan="{{ inline_admin_form|cell_count }}">
+                    {{ inline_admin_form.form.non_field_errors }}
+                  </td>
+                </tr>
+              {% endif %}
+              <tr class="form-row {% if inline_admin_form.original or inline_admin_form.show_url %}has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
+                <td class="original">
+                  {% if inline_admin_form.original or inline_admin_form.show_url %}
+                    <p class="d-flex gap-1">
+                      {% if inline_admin_form.original %}
+                        <span class="me-auto">{{ inline_admin_form.original }}</span>
+                        {% if inline_admin_form.model_admin.show_change_link and inline_admin_form.model_admin.has_registered_model %}
+                          {% with link_label=inline_admin_formset.has_change_permission|yesno:_("Change,View") link_icon=inline_admin_formset.has_change_permission|yesno:"edit,show" %}
+                            <a href="{% url inline_admin_form.model_admin.opts|admin_urlname:'change' inline_admin_form.original.pk|admin_urlquote %}" class="{{ inline_admin_formset.has_change_permission|yesno:'inlinechangelink,inlineviewlink' }}" data-bs-toggle="tooltip" data-bs-title="{{ link_label }}" aria-label="{{ link_label }}">
+                              {% icon link_icon %}
+                            </a>
+                          {% endwith %}
+                        {% endif %}
+                      {% endif %}
+                      {% if inline_admin_form.show_url %}
+                        <a href="{{ inline_admin_form.absolute_url }}" data-bs-toggle="tooltip" data-bs-title="{% translate "View on site" %}" aria-label="{% translate "View on site" %}">
+                          {% icon "viewsite" %}
+                        </a>
+                      {% endif %}
+                    </p>
+                  {% endif %}
+                  {% if inline_admin_form.needs_explicit_pk_field %}
+                    {{ inline_admin_form.pk_field.field }}
+                  {% endif %}
+                  {% if inline_admin_form.fk_field %}
+                    {{ inline_admin_form.fk_field.field }}
+                  {% endif %}
+                </td>
+                {% for fieldset in inline_admin_form %}
+                  {% for line in fieldset %}
+                    {% for field in line %}
+                      <td class="{% if field.field.name %}field-{{ field.field.name }}{% endif %}{% if field.field.is_hidden %} d-none hidden{% endif %}">
+                        {% if field.is_readonly %}
+                          <p>{{ field.contents }}</p>
+                        {% else %}
+                          {{ field.field.errors.as_ul }}
+                          {{ field.field }}
+                        {% endif %}
+                      </td>
+                    {% endfor %}
+                  {% endfor %}
+                {% endfor %}
+                {% if inline_admin_formset.formset.can_delete and inline_admin_formset.has_delete_permission %}
+                  <td class="delete">
+                    {% if inline_admin_form.original %}
+                      <span class="delete form-check form-switch float-end">
+                        {{ inline_admin_form.deletion_field.field }}
+                      </span>
+                    {% endif %}
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </fieldset>
   </div>
 </div>
