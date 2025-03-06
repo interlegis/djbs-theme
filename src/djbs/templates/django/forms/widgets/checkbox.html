@@ -1,5 +1,1 @@
-{% load djbs_extras %}
-{% get_theme_var 'CHECK_AS_SWITCH' as check_as_switch %}
-<div class="form-check{% if check_as_switch %} form-switch{% endif %}">
-  {% include "django/forms/widgets/input.html" with djbs_form_control_class="form-check-input" %}
-</div>
+{% include "django/forms/widgets/input.html" with djbs_form_control_class="form-check-input" %}
