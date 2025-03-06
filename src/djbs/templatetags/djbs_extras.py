@@ -1,3 +1,4 @@
+import datetime
 import re
 import yaml
 from pathlib import Path
@@ -126,3 +127,24 @@ def djbs_admin(context, admin):
             if hasattr(admin, key.lower()):
                 djbs[key] = getattr(admin, key.lower())
     return ""
+
+
+@register.filter
+def dateisoformat(datestr):
+    from django.utils import formats
+
+    try:
+        format = formats.get_format("DATE_INPUT_FORMATS")[0]
+    except KeyError:
+        return datestr
+    return datetime.datetime.strptime(datestr, format).date().isoformat()
+
+
+@register.filter
+def filename(file_path):
+    return Path(file_path).name
+
+
+@register.filter
+def filesuffix(file_path):
+    return Path(file_path).suffix.replace(".", "")
