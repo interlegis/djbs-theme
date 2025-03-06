@@ -3,13 +3,7 @@
   <div class="accordion-item">
     <h6 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fieldsetCollapse-{{ forloop.counter }}" {% if forloop.first %}aria-expanded="true" {% endif %} aria-controls="fieldsetCollapse-{{ forloop.counter }}">
-        {% if fieldset.name %}
-          {{ fieldset.name|upper }}
-        {% else %}
-          {% blocktranslate with pos=forloop.counter %}
-            TAB {{ pos }}
-          {% endblocktranslate %}
-        {% endif %}
+        {{ fieldset.name|default:opts.verbose_name|upper }}
       </button>
     </h6>
     <div id="fieldsetCollapse-{{ forloop.counter }}" class="accordion-collapse collapse{% if forloop.first %} show{% endif %}" data-bs-parent="#fieldsetAccordion">
