@@ -3,7 +3,7 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "djbs-theme_sesostris"
+name = "djbs-theme"
 #dynamic = ["version"]
 version = "0.0.1"
 authors = [
