@@ -1,5 +1,5 @@
 {% load djbs_extras %} <input type="date"
        name="{{ widget.name }}"
-       {% if widget.value != None %} value="{{ widget.value|dateisoformat }}"{% endif %}
+       {% if widget.value %} value="{{ widget.value|dateisoformat }}"{% endif %}
        {% include "django/forms/widgets/attrs.html" %}
        style="width: max-content;">

@@ -1,0 +1,12 @@
+{% load static djbs_extras %}
+<ul class="navbar-nav flex-column mt-4">
+  {% if user.is_superuser %}
+    {% show_menu "admin_menu" %}
+  {% endif %}
+  {% if user.is_staff %}
+    {% show_menu "main_menu" %}
+  {% endif %}
+  {% if user.is_anonymous %}
+    {% show_menu "anonymous_menu" %}
+  {% endif %}
+</ul>

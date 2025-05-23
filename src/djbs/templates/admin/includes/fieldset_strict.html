@@ -1,6 +1,11 @@
 {% load djbs_extras %}{% get_theme_var 'CHECK_AS_SWITCH' as check_as_switch %}
 <fieldset class="card mb-3 shadow-sm module aligned {{ fieldset.classes }}">
-  {% if fieldset.name and fieldset_style == djbsc.STYLE_CARD %}<h5 class="card-header">{{ fieldset.name }}</h5>{% endif %}
+  {% if fieldset.name and fieldset_style == djbsc.STYLE_CARD %}
+    <h5 class="card-header{% if fieldset|has_errors %} text-danger{% endif %}">
+      {% if fieldset|has_errors %}{% icon "error" %}{% endif %}
+      {{ fieldset.name }}
+    </h5>
+  {% endif %}
   <div class="card-body">
     {% if fieldset.description %}<h6 class="card-subtitle">{{ fieldset.description|safe }}</h6>{% endif %}
     {% for line in fieldset %}

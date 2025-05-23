@@ -43,10 +43,14 @@
           {% endwith %}
         {% endblock %}{% endif %}
         {% if errors %}
-          <p class="errornote">
-          {% blocktranslate count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
-          </p>
-          {{ adminform.form.non_field_errors }}
+          <div class="alert alert-danger" role="alert">
+            {% blocktranslate count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
+          </div>
+          {% if adminform.form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ adminform.form.non_field_errors }}
+            </div>
+          {% endif %}
         {% endif %}
 
         {% block field_sets %}
@@ -55,7 +59,10 @@
               <ul class="nav nav-underline" id="fieldsetTabs">
                 {% for fieldset in adminform %}
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link{% if forloop.first %} active{% endif %}" id="fieldsetTab-{{ forloop.counter }}" data-bs-toggle="tab" data-bs-target="#fieldsetTabPanel-{{ forloop.counter }}" type="button" role="tab" aria-controls="fieldsetTabPanel-{{ forloop.counter }}"{% if forloop.first %} aria-selected="true"{% endif %}>
+                    <button class="nav-link{% if forloop.first %} active{% endif %}{% if fieldset|has_errors %} text-danger{% endif %}" id="fieldsetTab-{{ forloop.counter }}" data-bs-toggle="tab" data-bs-target="#fieldsetTabPanel-{{ forloop.counter }}" type="button" role="tab" aria-controls="fieldsetTabPanel-{{ forloop.counter }}"{% if forloop.first %} aria-selected="true"{% endif %}>
+                      {% if fieldset|has_errors %}
+                        {% icon "error" %}
+                      {% endif %}
                       {{ fieldset.name|default:opts.verbose_name|upper }}
                     </button>
                   </li>

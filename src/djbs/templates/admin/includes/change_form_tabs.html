@@ -1,6 +1,9 @@
-{% for inline_admin_formset in inline_admin_formsets %}
+{% load djbs_extras %}{% for inline_admin_formset in inline_admin_formsets %}
 <li class="nav-item" role="presentation">
-  <button class="nav-link{% if first_active and forloop.first %} active{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-tab" data-bs-toggle="tab" data-bs-target="#{{ inline_admin_formset.formset.prefix }}-group" type="button" role="tab" aria-controls="{{ inline_admin_formset.formset.prefix }}-group"{% if forloop.first %} aria-selected="true"{% endif %}>
+  <button class="nav-link{% if first_active and forloop.first %} active{% endif %}{% if inline_admin_formset.formset.total_error_count > 0 %} text-danger{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-tab" data-bs-toggle="tab" data-bs-target="#{{ inline_admin_formset.formset.prefix }}-group" type="button" role="tab" aria-controls="{{ inline_admin_formset.formset.prefix }}-group"{% if first_active and forloop.first %} aria-selected="true"{% endif %}>
+    {% if inline_admin_formset.formset.total_error_count > 0 %}
+      {% icon "error" %}
+    {% endif %}
     {% if inline_admin_formset.formset.max_num == 1 %}
       {{ inline_admin_formset.opts.verbose_name|upper }}
     {% else %}

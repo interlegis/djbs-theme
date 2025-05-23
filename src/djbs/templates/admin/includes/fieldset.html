@@ -1,8 +1,9 @@
-{% load i18n %}
+{% load i18n djbs_extras %}
 {% if fieldset_style == djbsc.STYLE_ACCORDION %}
   <div class="accordion-item">
     <h6 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fieldsetCollapse-{{ forloop.counter }}" {% if forloop.first %}aria-expanded="true" {% endif %} aria-controls="fieldsetCollapse-{{ forloop.counter }}">
+      <button class="accordion-button{% if fieldset|has_errors %} text-danger{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#fieldsetCollapse-{{ forloop.counter }}" {% if forloop.first %}aria-expanded="true" {% endif %} aria-controls="fieldsetCollapse-{{ forloop.counter }}">
+        {% if fieldset|has_errors %}{% icon "error" %}{% endif %}
         {{ fieldset.name|default:opts.verbose_name|upper }}
       </button>
     </h6>

@@ -12,8 +12,119 @@ from ..global_djbs_settings import ADMIN_CHANGEABLES
 register = template.Library()
 djbst_settings = get_djbst_settings()
 
+# Filters
+# -----------------------------------------------------------------------------
 
-@register.inclusion_tag("menus/menu.html", takes_context=True)
+
+@register.filter
+@mark_safe
+def badgerize(faceted_label):
+    if not djbst_settings["BADGERIZE_FACETS"]:
+        return faceted_label
+    m = re.search("(.*) \((.*)\)", str(faceted_label))
+    if m is None:
+        return faceted_label
+    else:
+        label, count = m.groups()
+        return (
+            f"<span class='me-auto'>{ label }</span>"
+            f"<span class='badge text-bg-secondary'>{ count }</span>"
+        )
+
+
+@register.filter
+def dateisoformat(datestr):
+    from django.utils import formats
+
+    try:
+        format = formats.get_format("DATE_INPUT_FORMATS")[0]
+    except KeyError:
+        return datestr
+    return datetime.datetime.strptime(datestr, format).date().isoformat()
+
+
+@register.filter
+def filename(file_path):
+    return Path(file_path).name
+
+
+@register.filter
+def filesuffix(file_path):
+    return Path(file_path).suffix.replace(".", "")
+
+
+@register.filter
+def has_errors(obj):
+    return any([obj.form.has_error(field_name) for field_name in obj.fields])
+
+
+@register.filter
+def valueof(querystr, param):
+    if param in querystr:
+        return parse_qs(querystr[1:])[param][0]
+    return ""
+
+
+# Tags
+# -----------------------------------------------------------------------------
+
+
+@register.simple_tag(takes_context=True)
+def djbs_admin(context, admin):
+    djbs = context.get("djbs")
+    if djbs:
+        for key in ADMIN_CHANGEABLES:
+            if hasattr(admin, key.lower()):
+                djbs[key] = getattr(admin, key.lower())
+    return ""
+
+
+@register.simple_tag
+def get_theme_var(var_name, obj=None):
+    return (
+        getattr(obj, var_name.lower())
+        if hasattr(obj, var_name.lower())
+        else (
+            djbst_settings[var_name.upper()]
+            if var_name.upper() in djbst_settings
+            else ""
+        )
+    )
+
+
+@register.simple_tag
+def icon(icon_name, classes="", **kwargs):
+    attrs = " ".join(
+        [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
+    )
+    if icon_name not in djbst_settings["ICONS"]:
+        icon_name = "default"
+    return mark_safe(
+        djbst_settings["ICON_TAG_PATTERN"].format(
+            icon=djbst_settings["ICONS"][icon_name], classes=classes, attrs=attrs
+        )
+    )
+
+
+@register.simple_tag
+def no_filter_params(cl):
+    filters = cl.params.copy()
+    for spec in cl.filter_specs:
+        if spec.lookup_kwarg in filters:
+            del filters[spec.lookup_kwarg]
+    # if filters:
+    #     return "?" + "&".join(
+    #         [urlencode({k: v}) for k, l in filters.items() for v in l]
+    #     )
+    return filters
+
+
+@register.simple_tag
+def page_link(cl, i):
+    return cl.get_query_string({PAGE_VAR: i})
+
+
+@register.inclusion_tag("djbs/menus/menu.html", takes_context=True)
 def show_menu(context, menu_id):
     if isinstance(djbst_settings["MENU_FILE"], Path):
         menu_file = djbst_settings["MENU_FILE"]
@@ -49,102 +160,3 @@ def tool_icon(tool_name, obj=None, classes="", **kwargs):
             icon=icon_class, classes=classes, attrs=attrs
         )
     )
-
-
-@register.simple_tag
-def icon(icon_name, classes="", **kwargs):
-    attrs = " ".join(
-        [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
-    )
-    if icon_name not in djbst_settings["ICONS"]:
-        icon_name = "default"
-    return mark_safe(
-        djbst_settings["ICON_TAG_PATTERN"].format(
-            icon=djbst_settings["ICONS"][icon_name], classes=classes, attrs=attrs
-        )
-    )
-
-
-@register.simple_tag
-def get_theme_var(var_name, obj=None):
-    return (
-        getattr(obj, var_name.lower())
-        if hasattr(obj, var_name.lower())
-        else (
-            djbst_settings[var_name.upper()]
-            if var_name.upper() in djbst_settings
-            else ""
-        )
-    )
-
-
-@register.simple_tag
-def page_link(cl, i):
-    return cl.get_query_string({PAGE_VAR: i})
-
-
-@register.filter
-@mark_safe
-def badgerize(faceted_label):
-    if not djbst_settings["BADGERIZE_FACETS"]:
-        return faceted_label
-    m = re.search("(.*) \((.*)\)", str(faceted_label))
-    if m is None:
-        return faceted_label
-    else:
-        label, count = m.groups()
-        return (
-            f"<span class='me-auto'>{ label }</span>"
-            f"<span class='badge text-bg-secondary'>{ count }</span>"
-        )
-
-
-@register.simple_tag
-def no_filter_params(cl):
-    filters = cl.params.copy()
-    for spec in cl.filter_specs:
-        if spec.lookup_kwarg in filters:
-            del filters[spec.lookup_kwarg]
-    # if filters:
-    #     return "?" + "&".join(
-    #         [urlencode({k: v}) for k, l in filters.items() for v in l]
-    #     )
-    return filters
-
-
-@register.filter
-def valueof(querystr, param):
-    if param in querystr:
-        return parse_qs(querystr[1:])[param][0]
-    return ""
-
-
-@register.simple_tag(takes_context=True)
-def djbs_admin(context, admin):
-    djbs = context.get("djbs")
-    if djbs:
-        for key in ADMIN_CHANGEABLES:
-            if hasattr(admin, key.lower()):
-                djbs[key] = getattr(admin, key.lower())
-    return ""
-
-
-@register.filter
-def dateisoformat(datestr):
-    from django.utils import formats
-
-    try:
-        format = formats.get_format("DATE_INPUT_FORMATS")[0]
-    except KeyError:
-        return datestr
-    return datetime.datetime.strptime(datestr, format).date().isoformat()
-
-
-@register.filter
-def filename(file_path):
-    return Path(file_path).name
-
-
-@register.filter
-def filesuffix(file_path):
-    return Path(file_path).suffix.replace(".", "")

@@ -25,7 +25,7 @@
       {% url menu.view_name as local_url %}
     {% endif %}
     <li class="nav-item">
-      <a class="nav-link{% if item_url in request.path %} active{% endif %}" href="{% firstof local_url child.external_url '/' %}{% if menu.querystr %}?{{ menu.querystr }}{% endif %}">
+      <a class="nav-link{% if item_url in request.path %} active{% endif %}" href="{% firstof local_url menu.external_url '/' %}{% if menu.querystr %}?{{ menu.querystr }}{% endif %}">
         <i class="{{ menu.icon|default:'bi bi-gear'}} me-2" data-bs-toggle="tooltip" data-bs-title="{{ menu.title }}"></i>
         <span class="sidenav-collapsible collapse collapse-horizontal show">{{ menu.title }}</span>
       </a>

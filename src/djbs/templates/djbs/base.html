@@ -44,7 +44,7 @@
                 </button>
                 {% block branding %}{% endblock %}
               </div>
-              {% include 'sidenav_menu.html' %}
+              {% include 'djbs/menus/sidenav_menu.html' %}
             </div>
           </div>
         {% endif %}
@@ -77,7 +77,7 @@
                 </div>
                 <div class="navbar-nav">
                   {% block usertools %}
-                    {% include "color_theme_toggle.html" %}
+                    {% include "djbs/color_theme_toggle.html" %}
                     {% if has_permission %}
                       <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% icon "user" "btn btn-outline-secondary rounded-circle" %}
