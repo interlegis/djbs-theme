@@ -47,7 +47,9 @@
                   {% if inline_admin_form.original or inline_admin_form.show_url %}
                     <p class="d-flex gap-1">
                       {% if inline_admin_form.original %}
-                        <span class="me-auto">{{ inline_admin_form.original }}</span>
+                        {% if not inline_admin_formset.opts.djbs_hide_original %}
+                          <span class="me-auto">{{ inline_admin_form.original }}</span>
+                        {% endif %}
                         {% if inline_admin_form.model_admin.show_change_link and inline_admin_form.model_admin.has_registered_model %}
                           {% with link_label=inline_admin_formset.has_change_permission|yesno:_("Change,View") link_icon=inline_admin_formset.has_change_permission|yesno:"edit,show" %}
                             <a href="{% url inline_admin_form.model_admin.opts|admin_urlname:'change' inline_admin_form.original.pk|admin_urlquote %}" class="{{ inline_admin_formset.has_change_permission|yesno:'inlinechangelink,inlineviewlink' }}" data-bs-toggle="tooltip" data-bs-title="{{ link_label }}" aria-label="{{ link_label }}">

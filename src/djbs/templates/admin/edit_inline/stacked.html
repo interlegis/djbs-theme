@@ -1,5 +1,5 @@
 {% load i18n admin_urls djbs_extras %}
-<div class="card shadow-sm {% if djbs.INLINESET_STYLE == djbsc.STYLE_CAD %} mb-3{% elif djbs.INLINESET_STYLE == djbsc.STYLE_TAB %} tab-pane fade{% if forloop.first and djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %} show active{% endif %}{% elif djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %} accordion-item{% endif %} js-inline-admin-formset inline-group"
+<div class="card shadow-sm {% if djbs.INLINESET_STYLE == djbsc.STYLE_CARD %} mb-3{% elif djbs.INLINESET_STYLE == djbsc.STYLE_TAB %} tab-pane fade{% if forloop.first and djbs.FIELDSET_STYLE != djbs.INLINESET_STYLE %} show active{% endif %}{% elif djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %} accordion-item{% endif %} js-inline-admin-formset inline-group"
      id="{{ inline_admin_formset.formset.prefix }}-group"
      data-inline-type="stacked"
      data-inline-formset="{{ inline_admin_formset.inline_formset_data }}">
@@ -18,7 +18,7 @@
     <fieldset class="{% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %}accordion-body{% endif %} module {{ inline_admin_formset.classes }}" aria-labelledby="{{ inline_admin_formset.formset.prefix }}-heading"{% if djbs.INLINESET_STYLE == djbsc.STYLE_ACCORDION %} data-bs-parent="#fieldsetAccordion"{% endif %}>
       {{ inline_admin_formset.formset.management_form }}
       {{ inline_admin_formset.formset.non_form_errors }}
-      <div class="row row-cols-1 row-cols-md-2 g-2">
+      <div class="row row-cols-1 row-cols-md-{% firstof inline_admin_formset.opts.djbs_cols 2 %} g-2">
         {% for inline_admin_form in inline_admin_formset %}
           <div class="col">
             <div class="card inline-related{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form last-related{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
