@@ -1,5 +1,5 @@
 {% load i18n admin_urls djbs_extras %}
-<div class="submit-row btn-toolbar hstack justify-content-end my-2 gap-2{% if submit_buttons_position == "top" %} sticky-top{% endif %}">
+<div class="submit-row btn-toolbar hstack justify-content-end mx-2{% if submit_buttons_position == "top" %} sticky-top{% else %} my-5 gap-2{% endif %}">
   {% if submit_buttons_position == "top" %}
     <div class="btn-group" role="group">
   {% endif %}
