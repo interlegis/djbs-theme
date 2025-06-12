@@ -38,9 +38,9 @@ def dateisoformat(datestr):
 
     try:
         format = formats.get_format("DATE_INPUT_FORMATS")[0]
-    except KeyError:
+        return datetime.datetime.strptime(datestr, format).date().isoformat()
+    except (KeyError, ValueError):
         return datestr
-    return datetime.datetime.strptime(datestr, format).date().isoformat()
 
 
 @register.filter
