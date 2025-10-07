@@ -23,6 +23,13 @@ You can get djbs-theme by using pip:
 $ pip install djbs-theme
 ```
 
+If you want to install it from source, pip directly from git repository:
+
+```
+$ pip install git+https://github.com/interlegis/djbs-theme.git
+```
+
+
 ## Installing it
 
 To enable `djbs-theme` in your project you need to add `djbs` and `django.forms` to `INSTALLED_APPS` in your project's `settings.py` file, just before the `'django.contrib.admin'` entry:
