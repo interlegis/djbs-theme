@@ -9,6 +9,8 @@
 project = "djbs-theme"
 copyright = "2025, Interlegis - ILB - Brazilian Senate"
 author = "Interlegis - ILB - Brazilian Senate"
+version = "1.0"
+release = "1.0.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
