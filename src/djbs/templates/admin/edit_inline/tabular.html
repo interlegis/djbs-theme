@@ -47,7 +47,8 @@
                   {% if inline_admin_form.original or inline_admin_form.show_url %}
                     <p class="d-flex gap-1">
                       {% if inline_admin_form.original %}
-                        {% if not inline_admin_formset.opts.djbs_hide_original %}
+                        {% firstof inline_admin_formset.opts.hide_original djbs.HIDE_ORIGINAL False as hide_original %}
+                        {% if not hide_original %}
                           <span class="me-auto">{{ inline_admin_form.original }}</span>
                         {% endif %}
                         {% if inline_admin_form.model_admin.show_change_link and inline_admin_form.model_admin.has_registered_model %}

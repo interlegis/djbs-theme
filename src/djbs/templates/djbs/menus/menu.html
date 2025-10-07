@@ -1,9 +1,9 @@
-{% load %}
+{% load djbs_extras %}
 {% for menu in menu_items %}
   {% if menu.children %}
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="{{ menu.icon|default:'bi bi-gear'}} me-2" data-bs-toggle="tooltip" data-bs-title="{{ menu.title }}"></i>
+        {% icon menu.icon|default:"config" classes="me-2" data_bs_toggle="tooltip" data_bs_title=menu.title %}
         <span class="sidenav-collapsible collapse collapse-horizontal show">{{ menu.title }}</span>
       </a>
       <ul class="dropdown-menu">
@@ -13,7 +13,9 @@
           {% endif %}
           <li>
             <a class="dropdown-item" href="{% firstof local_url child.external_url '/' %}{% if child.querystr %}?{{ child.querystr }}{% endif %}">
-              <i class="{{ child.icon|default:'invisible' }} me-2"></i>
+              {% if child.icon %}
+                {% icon child.icon classes="me-2" %}
+              {% endif %}
               {{ child.title }}
             </a>
           </li>
@@ -26,7 +28,7 @@
     {% endif %}
     <li class="nav-item">
       <a class="nav-link{% if item_url in request.path %} active{% endif %}" href="{% firstof local_url menu.external_url '/' %}{% if menu.querystr %}?{{ menu.querystr }}{% endif %}">
-        <i class="{{ menu.icon|default:'bi bi-gear'}} me-2" data-bs-toggle="tooltip" data-bs-title="{{ menu.title }}"></i>
+        {% icon menu.icon|default:"config" classes="me-2" data_bs_toggle="tooltip" data_bs_title=menu.title %}
         <span class="sidenav-collapsible collapse collapse-horizontal show">{{ menu.title }}</span>
       </a>
     </li>

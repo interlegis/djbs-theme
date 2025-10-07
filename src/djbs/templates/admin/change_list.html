@@ -105,7 +105,7 @@
         </div>
       {% endif %}
       {% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_DROPDOWN %}
-        <div class="d-flex gap-2" id="changelist-filter-dropdown">
+        <div class="d-flex flex-wrap gap-2" id="changelist-filter-dropdown">
           {% for spec in cl.filter_specs %}
             {% admin_list_filter cl spec %}
           {% endfor %}

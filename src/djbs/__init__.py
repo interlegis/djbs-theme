@@ -22,11 +22,13 @@ __version__ = get_version(VERSION)
 def get_djbst_settings():
     from django.conf import settings
     from .global_djbs_settings import DJBSTHEME_DEFAULTS
+    
+    djbs_settings = DJBSTHEME_DEFAULTS.copy()
 
     if hasattr(settings, "DJBSTHEME"):
         for key, value in settings.DJBSTHEME.items():
             if isinstance(value, dict):
-                DJBSTHEME_DEFAULTS[key].update(value)
+                djbs_settings[key].update(value)
             else:
-                DJBSTHEME_DEFAULTS[key] = value
-    return DJBSTHEME_DEFAULTS
+                djbs_settings[key] = value
+    return djbs_settings

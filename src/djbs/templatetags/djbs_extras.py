@@ -151,7 +151,7 @@ def tool_icon(tool_name, obj=None, classes="", **kwargs):
     if icon_name in djbst_settings["ICONS"]:
         icon_class = djbst_settings["ICONS"][icon_name]
     else:
-        icon_class = icon_name
+        icon_class = djbst_settings["ICONS"]["play"]
     attrs = " ".join(
         [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
     )
