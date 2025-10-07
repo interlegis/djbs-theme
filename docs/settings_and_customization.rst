@@ -166,7 +166,7 @@ Defines the style of the changeform inlines. The options are:
 Default: ``True``
 
 Defines whether the Django filter facets will be displayed as badges. See 
-`Bootstrap documentation. <https://getbootstrap.com/docs/5.3/components/badge/>`_
+`Bootstrap documentation. <https://getbootstrap.com/docs/5.3/components/badge/>`__
 
 ``STACKED_COLS``
 ^^^^^^^^^^^^^^^^

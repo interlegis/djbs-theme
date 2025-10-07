@@ -61,6 +61,11 @@ Releases
 +---------+------------------------------------------------------------------+
 | Release | Description                                                      |
 +=========+==================================================================+
+|  1.0.4  | * Add sphinx documentation                                       |
+|         | * Change menu to use icon template tag                           |
+|         | * Correct ModelAdmin property names                              |
+|         | * update templates                                               |
++---------+------------------------------------------------------------------+
 |  1.0.3  | Fix template to use correct `stacked_cols` property name         |
 +---------+------------------------------------------------------------------+
 |  1.0.2  | Increases the top margin of the submit row to highlight the      |
