@@ -32,7 +32,8 @@ Compatibility with versions of Python and Django
 =================================================
 
 We follow the Django guidelines for supported Python and Django versions. 
-See more at `Django Supported Versions <https://docs.djangoproject.com/en/dev/internals/release-process/#supported-versions>`_
+See more at `Django Supported Versions <https://docs.djangoproject.com/en/
+dev/internals/release-process/#supported-versions>`__
 
 This might mean the djbs-theme may work with older or unsupported versions 
 but we do not guarantee it and most likely will not fix bugs related to 
@@ -61,6 +62,12 @@ Releases
 +---------+------------------------------------------------------------------+
 | Release | Description                                                      |
 +=========+==================================================================+
+|  1.0.5  | * Update `clearable_file_input` admin form widget template to    |
+|         |   display a thumbnail or icon representing the actual uploaded   |
+|         |   file.                                                          |
+|         | * Add `fileimage` template tag to generate image urls for        |
+|         |   `FieldFile` s                                                  |
++---------+------------------------------------------------------------------+
 |  1.0.4  | * Add sphinx documentation                                       |
 |         | * Change menu to use icon template tag                           |
 |         | * Correct ModelAdmin property names                              |

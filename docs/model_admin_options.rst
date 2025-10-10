@@ -14,7 +14,7 @@ check_as_switch
 
 defines whether checkboxes should be shown as switches. If true checkboxes are 
 displayed as toggle switch buttons. See `Bootstrap documentation. 
-<https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches>`_
+<https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches>`__
 
 filter_style
 ------------
@@ -83,7 +83,8 @@ badgerize_facets
 ----------------
 
 Defines whether the Django filter facets will be displayed as badges. See 
-`Bootstrap documentation. <https://getbootstrap.com/docs/5.3/components/badge/>`__
+`Bootstrap documentation. <https://getbootstrap.com/docs/5.3/components/
+badge/>`__
 
 Bootstrap badges are not displayed when `filter_style` is 
 `djbs_constants.FILTER_STYLE_FORM` because form filters uses html SELECT to

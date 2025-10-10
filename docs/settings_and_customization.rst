@@ -94,7 +94,8 @@ The default djbs-theme settings are as follows:
 Default: ``None``
 
 A url name that responds to the general search of the site (see `Django 
-documentation <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#url>`_).
+documentation <https://docs.djangoproject.com/en/dev/ref/templates/
+builtins/#url>`__).
 If ``None`` the search form will not be shown.
 
 ``SEARCH_PARAM``
@@ -120,7 +121,8 @@ The full path of the YAML file that contains the menu description. See
 Default: ``True``
 
 defines whether checkboxes should be shown as switches. See `Bootstrap 
-documentation. <https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches>`_
+documentation. <https://getbootstrap.com/docs/5.3/forms/checks-radios/
+#switches>`__
 
 ``FILTER_STYLE``
 ^^^^^^^^^^^^^^^^
@@ -166,7 +168,8 @@ Defines the style of the changeform inlines. The options are:
 Default: ``True``
 
 Defines whether the Django filter facets will be displayed as badges. See 
-`Bootstrap documentation. <https://getbootstrap.com/docs/5.3/components/badge/>`__
+`Bootstrap documentation. <https://getbootstrap.com/docs/5.3/components/
+badge/>`__
 
 ``STACKED_COLS``
 ^^^^^^^^^^^^^^^^

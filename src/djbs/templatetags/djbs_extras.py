@@ -4,7 +4,10 @@ import yaml
 from pathlib import Path
 from urllib.parse import parse_qs
 from django import template
+from django.conf import settings
 from django.contrib.admin.views.main import PAGE_VAR
+from django.db import models
+from django.templatetags.static import static
 from django.utils.safestring import mark_safe
 from .. import get_djbst_settings
 from ..global_djbs_settings import ADMIN_CHANGEABLES
@@ -41,6 +44,19 @@ def dateisoformat(datestr):
         return datetime.datetime.strptime(datestr, format).date().isoformat()
     except (KeyError, ValueError):
         return datestr
+
+
+@register.filter
+def fileimage(field):
+    if not isinstance(field, models.fields.files.FieldFile):
+        return None
+    if isinstance(field, models.fields.files.ImageFieldFile):
+        return field.url if field.url else static("img/djbs_icons/unknown.jpg")
+    sufixo = Path(field.name).suffix[1:]
+    if Path(f"{settings.STATIC_ROOT}/img/djbs_icons/{sufixo}.jpg").exists():
+        return static(f"img/djbs_icons/{sufixo}.jpg")
+    else:
+        return static("img/djbs_icons/unknown.jpg")
 
 
 @register.filter

@@ -18,7 +18,7 @@ Convert a string with pattern ``"(?P<label>.*) \((?P<count>.*)\)"`` to the
 HTML snippet ``f"<span class='me-auto'>{ label }</span><span class='badge 
 text-bg-secondary'>{ count }</span>"``. Used to convert faceted filter labels
 (see `Dango admin documentation <https://docs.djangoproject.com/en/5.1/ref/
-contrib/admin/#django.contrib.admin.ModelAdmin.show_facets>`_) 
+contrib/admin/#django.contrib.admin.ModelAdmin.show_facets>`__)
 to a bootstrap badge layout.
 
 Sample usage:
@@ -44,6 +44,33 @@ Sample usage:
        {% if widget.value != None %} value="{{ widget.value|dateisoformat }}"{% endif %}
        {% include "django/forms/widgets/attrs.html" %}
        style="width: max-content;">
+
+``fileimage``
+^^^^^^^^^^^^^
+
+Return a image URL representing the file given by `FieldFile`. If the file is
+an image file, return the `FieldFile.url` itself, elsewhere return a link to
+an static icon image representing the file type.
+
+Sample usage:
+
+.. code-block:: django
+
+    {% load djbs_extras %}
+    <img src="{{ widget.value|fileimage }}" alt="{{ widget.value }}" 
+    title="{{ widget.value }}">
+
+The static icon images has the name defined by `<file suffix>.jpg` pattern.
+These files are located in `<static_root>/img/djbs_icons/`. Djbs-theme come
+with icon images for csv, doc, docx, json, odp, ods, odt, pdf, xls, xlsx file
+types.
+
+If the file suffix in `FiledFile` has no corresponding static icon image, the
+`img/djbs_icons/unknown.jpg` static url is returned.
+
+developers can add another static icon images putting any file with the name in
+pattern `<file suffix>.jpg` in a `static/img/djbs_icons` folder in any 
+application.
 
 ``filename``
 ^^^^^^^^^^^^
@@ -127,6 +154,7 @@ The djbs parameters that can be set in ModelAdmin are:
 
 .. note::
     Always use the lowercased parameter name as ModelAdmin attribute.
+    See (:ref:`model_admin_options`_)
 
 ``get_theme_var``
 ^^^^^^^^^^^^^^^^^
