@@ -24,7 +24,7 @@ djbst_settings = get_djbst_settings()
 def badgerize(faceted_label):
     if not djbst_settings["BADGERIZE_FACETS"]:
         return faceted_label
-    m = re.search("(.*) \((.*)\)", str(faceted_label))
+    m = re.search(r"(.*) \((.*)\)", str(faceted_label))
     if m is None:
         return faceted_label
     else:
@@ -117,7 +117,9 @@ def icon(icon_name, classes="", **kwargs):
         icon_name = "default"
     return mark_safe(
         djbst_settings["ICON_TAG_PATTERN"].format(
-            icon=djbst_settings["ICONS"][icon_name], classes=classes, attrs=attrs
+            icon=djbst_settings["ICONS"][icon_name],
+            classes=classes,
+            attrs=attrs,
         )
     )
 
@@ -158,7 +160,9 @@ def tool_icon(tool_name, obj=None, classes="", **kwargs):
         action = None
         if hasattr(obj, tool_name):
             action = getattr(obj, tool_name)
-        elif hasattr(obj, "model_admin") and hasattr(obj.model_admin, tool_name):
+        elif hasattr(obj, "model_admin") and hasattr(
+            obj.model_admin, tool_name
+        ):
             action = getattr(obj.model_admin, tool_name)
         if hasattr(action, "djbs_icon"):
             icon_name = action.djbs_icon
