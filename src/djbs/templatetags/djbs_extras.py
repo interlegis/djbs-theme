@@ -9,11 +9,8 @@ from django.contrib.admin.views.main import PAGE_VAR
 from django.db import models
 from django.templatetags.static import static
 from django.utils.safestring import mark_safe
-from .. import get_djbst_settings
-from ..global_djbs_settings import ADMIN_CHANGEABLES
 
 register = template.Library()
-djbst_settings = get_djbst_settings()
 
 # Filters
 # -----------------------------------------------------------------------------
@@ -22,7 +19,7 @@ djbst_settings = get_djbst_settings()
 @register.filter
 @mark_safe
 def badgerize(faceted_label):
-    if not djbst_settings["BADGERIZE_FACETS"]:
+    if not settings.DJBSTHEME["BADGERIZE_FACETS"]:
         return faceted_label
     m = re.search(r"(.*) \((.*)\)", str(faceted_label))
     if m is None:
@@ -85,39 +82,16 @@ def valueof(querystr, param):
 # -----------------------------------------------------------------------------
 
 
-@register.simple_tag(takes_context=True)
-def djbs_admin(context, admin):
-    djbs = context.get("djbs")
-    if djbs:
-        for key in ADMIN_CHANGEABLES:
-            if hasattr(admin, key.lower()):
-                djbs[key] = getattr(admin, key.lower())
-    return ""
-
-
-@register.simple_tag
-def get_theme_var(var_name, obj=None):
-    return (
-        getattr(obj, var_name.lower())
-        if hasattr(obj, var_name.lower())
-        else (
-            djbst_settings[var_name.upper()]
-            if var_name.upper() in djbst_settings
-            else ""
-        )
-    )
-
-
 @register.simple_tag
 def icon(icon_name, classes="", **kwargs):
     attrs = " ".join(
         [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
     )
-    if icon_name not in djbst_settings["ICONS"]:
+    if icon_name not in settings.DJBSTHEME["ICONS"]:
         icon_name = "default"
     return mark_safe(
-        djbst_settings["ICON_TAG_PATTERN"].format(
-            icon=djbst_settings["ICONS"][icon_name],
+        settings.DJBSTHEME["ICON_TAG_PATTERN"].format(
+            icon=settings.DJBSTHEME["ICONS"][icon_name],
             classes=classes,
             attrs=attrs,
         )
@@ -144,13 +118,14 @@ def page_link(cl, i):
 
 @register.inclusion_tag("djbs/menus/menu.html", takes_context=True)
 def show_menu(context, menu_id):
-    if isinstance(djbst_settings["MENU_FILE"], Path):
-        menu_file = djbst_settings["MENU_FILE"]
+    if isinstance(settings.DJBSTHEME["MENU_FILE"], Path):
+        menu_file = settings.DJBSTHEME["MENU_FILE"]
     else:
-        menu_file = Path(djbst_settings["MENU_FILE"])
+        menu_file = Path(settings.DJBSTHEME["MENU_FILE"])
     if menu_file.exists() and menu_file.is_file():
         menus = yaml.load(menu_file.open(), yaml.FullLoader)
-        return {"menu_items": menus[menu_id], "request": context.request}
+        if menu_id in menus:
+            return {"menu_items": menus[menu_id], "request": context.request}
     return {}
 
 
@@ -168,15 +143,15 @@ def tool_icon(tool_name, obj=None, classes="", **kwargs):
             icon_name = action.djbs_icon
         else:
             icon_name = tool_name
-    if icon_name in djbst_settings["ICONS"]:
-        icon_class = djbst_settings["ICONS"][icon_name]
+    if icon_name in settings.DJBSTHEME["ICONS"]:
+        icon_class = settings.DJBSTHEME["ICONS"][icon_name]
     else:
-        icon_class = djbst_settings["ICONS"]["play"]
+        icon_class = settings.DJBSTHEME["ICONS"]["play"]
     attrs = " ".join(
         [f"{key.replace('_','-')}='{value}'" for key, value in kwargs.items()]
     )
     return mark_safe(
-        djbst_settings["ICON_TAG_PATTERN"].format(
+        settings.DJBSTHEME["ICON_TAG_PATTERN"].format(
             icon=icon_class, classes=classes, attrs=attrs
         )
     )

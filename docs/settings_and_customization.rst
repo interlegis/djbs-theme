@@ -99,7 +99,6 @@ builtins/#url>`__).
 If ``None`` the search form will not be shown.
 
 ``SEARCH_PARAM``
-
 ^^^^^^^^^^^^^^^^
 
 Default: ``None``

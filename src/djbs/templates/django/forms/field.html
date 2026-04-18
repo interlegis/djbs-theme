@@ -5,8 +5,8 @@
 {% else %}
   {% if field.label and field.widget_type != "checkbox" %}{{ field.label_tag }}{% endif %}
 {% endif %}
-{% if field.widget_type == "checkbox" %}{% get_theme_var 'CHECK_AS_SWITCH' as check_as_switch %}
-  <div class="form-check{% if check_as_switch %} form-switch{% endif %}">
+{% if field.widget_type == "checkbox" %}
+  <div class="form-check{% if field.form.check_as_switch|default:field.form.model_admin.check_as_switch|default:djbs.CHECK_AS_SWITCH %} form-switch{% endif %}">
     {% if field.label %}{{ field.label_tag }}{% endif %}
 {% endif %}
 {{ field }}

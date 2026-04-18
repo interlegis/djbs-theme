@@ -1,7 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_modify djbs_extras %}
 
-{% block extrahead %}{{ block.super }}{% djbs_admin adminform.model_admin %}
+{% block extrahead %}{{ block.super }}
 <script src="{% url 'admin:jsi18n' %}"></script>
 {{ media }}
 {% endblock %}
@@ -31,7 +31,7 @@
   {% endif %}
 {% endblock %}
 
-{% block content %}{% get_theme_var 'FIELDSET_STYLE' as fieldset_style %}{% get_theme_var 'INLINESET_STYLE' as inlineset_style %}
+{% block content %}{% with fieldset_style=adminform.model_admin.fieldset_style|default:djbs.FIELDSET_STYLE inlineset_style=adminform.model_admin.inlineset_style|default:djbs.INLINESET_STYLE %}
   <div id="content-main">
     <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %}method="post" id="{{ opts.model_name }}_form" class="{% if errors %}was-validated{% else %}needs-validation{% endif %}" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
       <div>
@@ -128,4 +128,5 @@
       </div>
     </form>
   </div>
+{% endwith %}
 {% endblock %}

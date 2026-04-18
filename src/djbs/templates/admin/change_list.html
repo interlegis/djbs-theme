@@ -2,7 +2,6 @@
 {% load i18n admin_urls static admin_list djbs_extras %}
 
 {% block extrastyle %}
-  {% djbs_admin cl.model_admin %}
   {{ block.super }}
   {% if cl.formset or action_form %}
     <script src="{% url 'admin:jsi18n' %}"></script>
@@ -97,21 +96,21 @@
           {% endif %}
         </div>
       {% endif %}
-      {% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_ACCORDION %}
+      {% if cl.model_admin.filter_style|default:djbs.FILTER_STYLE == djbsc.FILTER_STYLE_ACCORDION %}
         <div class="accordion accordion-flush" id="changelist-filter-accordion">
           {% for spec in cl.filter_specs %}
             {% admin_list_filter cl spec %}
           {% endfor %}
         </div>
       {% endif %}
-      {% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_DROPDOWN %}
+      {% if cl.model_admin.filter_style|default:djbs.FILTER_STYLE == djbsc.FILTER_STYLE_DROPDOWN %}
         <div class="d-flex flex-wrap gap-2" id="changelist-filter-dropdown">
           {% for spec in cl.filter_specs %}
             {% admin_list_filter cl spec %}
           {% endfor %}
         </div>
       {% endif %}       
-      {% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_FORM %}
+      {% if cl.model_admin.filter_style|default:djbs.FILTER_STYLE == djbsc.FILTER_STYLE_FORM %}
         <form id="changelist-filter-form" method="get">{% no_filter_params cl as nfp %}
           {% for p,v in nfp.items %}<input type="hidden" name="{{ p }}" value="{{ v }}">{% endfor %}
           {% for spec in cl.filter_specs %}
@@ -120,7 +119,7 @@
           <button type="submit" class="btn btn-outline-secondary">{% translate "Filter" %}</button>
         </form>
       {% endif %}       
-      {% if djbs.FILTER_STYLE == djbsc.FILTER_STYLE_CLASSIC %}
+      {% if cl.model_admin.filter_style|default:djbs.FILTER_STYLE == djbsc.FILTER_STYLE_CLASSIC %}
         {% for spec in cl.filter_specs %}
           {% admin_list_filter cl spec %}
         {% endfor %}

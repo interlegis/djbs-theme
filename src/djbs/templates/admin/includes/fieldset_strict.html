@@ -1,4 +1,4 @@
-{% load djbs_extras %}{% get_theme_var 'CHECK_AS_SWITCH' as check_as_switch %}
+{% load djbs_extras %}
 <fieldset class="card mb-3 shadow-sm module aligned {{ fieldset.classes }}">
   {% if fieldset.name and fieldset_style == djbsc.STYLE_CARD %}
     <h5 class="card-header{% if fieldset|has_errors %} text-danger{% endif %}">
@@ -12,7 +12,7 @@
       <div class="row row-cols-md-{{ line.fields|length }} mb-2 form-row{% if line.fields|length == 1 and line.errors %} errors{% endif %}{% if not line.has_visible_field %} d-none hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
         {% for field in line %}
           <div class="col">
-            <div class="{% if not line.fields|length == 1 %} fieldBox{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} is_invalid{% endif %}{% if field.field.is_hidden %} d-none{% endif %}{% elif field.is_checkbox %} form-check{% if  check_as_switch %} form-switch{% endif %}{% endif %}">
+            <div class="{% if not line.fields|length == 1 %} fieldBox{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} is_invalid{% endif %}{% if field.field.is_hidden %} d-none{% endif %}{% elif field.is_checkbox %} form-check{% if  adminform.model_admin.check_as_switch|default:djbs.CHECK_AS_SWITCH %} form-switch{% endif %}{% endif %}">
               {% if field.is_checkbox %}
                 {{ field.field }}
                 {{ field.label_tag }}

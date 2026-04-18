@@ -1,12 +1,13 @@
+from django.conf import settings
 from pathlib import Path
 from .djbs_constants import *
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+base_dir = settings.BASE_DIR
 
 DJBSTHEME_DEFAULTS = {
     "SEARCH_URL": None,
     "SEARCH_PARAM": None,
-    "MENU_FILE": BASE_DIR / "menu_conf.yaml",
+    "MENU_FILE": base_dir / "menu_conf.yaml",
     "CHECK_AS_SWITCH": True,
     "FILTER_STYLE": FILTER_STYLE_CLASSIC,
     "FIELDSET_STYLE": STYLE_CARD,
@@ -23,13 +24,16 @@ DJBSTHEME_DEFAULTS = {
         "badge": "bi bi-person-badge",
         "building": "bi bi-buildings",
         "calendar": "bi bi-calendar-week",
+        "chart": "bi bi-graph-up",
         "check": "bi bi-check2",
         "check-all": "bi bi-check-all",
+        "checklist": "bi bi-list-check",
         "chevron-left": "bi bi-chevron-left",
         "chevron-right": "bi bi-chevron-right",
         "cloud": "bi bi-cloud-fog2",
         "config": "bi bi-gear",
         "copy": "bi bi-copy",
+        "create": "bi bi-node-plus",
         "csv": "bi bi-filetype-csv",
         "database": "bi bi-database",
         "default": "bi bi-wrench-adjustable-circle",
@@ -58,10 +62,12 @@ DJBSTHEME_DEFAULTS = {
         "map": "bi bi-globe-americas",
         "map-location": "bi bi-geo-alt",
         "map-cross": "bi bi-crosshair",
+        "money": "bi bi-coin",
         "pdf": "bi bi-filetype-pdf",
         "people": "bi bi-people",
         "play": "bi bi-play-circle",
         "print": "bi bi-printer",
+        "refresh": "bi bi-arrow-clockwise",
         "remove": "bi bi-eraser",
         "report": "bi bi-printer",
         "rewind": "bi bi-chevron-double-left",
@@ -69,6 +75,7 @@ DJBSTHEME_DEFAULTS = {
         "schedule": "bi bi-journal-check",
         "search": "bi bi-search",
         "show": "bi bi-eye",
+        "speak": "bi bi-megaphone",
         "telephone": "bi bi-telephone",
         "theme-auto": "bi bi-circle-half",
         "theme-light": "bi bi-sun-fill",
@@ -80,11 +87,3 @@ DJBSTHEME_DEFAULTS = {
         "xml": "bi bi-filetype-xml",
     },
 }
-
-ADMIN_CHANGEABLES = [
-    "CHECK_AS_SWITCH",
-    "FILTER_STYLE",
-    "FIELDSET_STYLE",
-    "INLINESET_STYLE",
-    "BADGERIZE_FACETS",
-]
