@@ -1,7 +1,7 @@
 {% load i18n djbs_extras %}
 {% block actions %}
   {% block actions-form %}
-    <input type="hidden" form="changelist-form" name="index" value="{{ action_index|default:0 }}"/>
+    <input type="hidden" form="changelist-form" name="index" value="{{ action_index|default:0 }}">
     {% for field in action_form %}
       {% if field.name == "action" %}
         {% for option in field.field.widget.choices %}
@@ -13,7 +13,7 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" class="select-across" form="changelist-form"/>
+        <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" class="select-across" form="changelist-form">
       {% endif %}
     {% endfor %}
   {% endblock %}

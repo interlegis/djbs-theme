@@ -30,7 +30,7 @@
     <div class="layout-container bg-body-secondary d-flex">
       {% block menu %}
         {% if not is_popup %}
-          <div class="sidebar collapse collapse-horizontal bg-body flex-column shadow-sm"  id="main-menu">
+          <div class="bg-body flex-column shadow-sm"  id="main-menu">
             <div class="mx-1">
               <div class="my-4 position-relative">
                 <div id="sidenav-toggler-wrapper" class="sidenav-toggler-wrapper rounded-circle position-absolute bg-body-secondary p-2 m-0">
@@ -49,7 +49,7 @@
           </div>
         {% endif %}
       {% endblock menu %}
-      <div class="layout-content container-fluid p-2">
+      <div class="container-fluid p-2">
         {% block navbar %}
           {% if not is_popup %}
             <nav class="navbar navbar-expand-lg bg-body shadow-sm">
@@ -97,10 +97,12 @@
                             {% if user.has_usable_password %}
                               <li><a  class="dropdown-item" href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a></li>
                             {% endif %}
-                            <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                            <li>
+                              <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
                                 {% csrf_token %}
                                 <button class="dropdown-item" type="submit">{% translate 'Log out' %}</button>
-                            </form>
+                              </form>
+                            </li>
                         {% endblock %}
                       </ul>
                     {% endif %}
@@ -152,7 +154,7 @@
       {% block sidebar %}
         <div class="sidebar-guide">
           <div class="sidebar-toggler rounded-circle position-absolute end-0 bg-body-secondary p-2 m-0">
-            <a class="bg-primary text-bg-primary rounded-circle p-1" data-bs-toggle="offcanvas" href="#sidebar-offcanvas" role="button" aria-controls="sidebar-offcanvas" title="{% translate 'Recent actions' %}">
+            <a class="bg-primary text-bg-primary rounded-circle p-1" data-bs-toggle="offcanvas" data-bs-target="#sidebar-offcanvas" href="#sidebar-offcanvas" role="button" aria-controls="sidebar-offcanvas" title="{% translate 'Recent actions' %}">
               {% icon "chevron-left" %}
             </a>
           </div>

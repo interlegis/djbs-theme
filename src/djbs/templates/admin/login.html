@@ -11,7 +11,7 @@
 
 {% block navbar %}
   <div class='container p-2 bg-body'>
-    <img src="{% static 'img/logo.svg' %}" height="48px"/>
+    <img src="{% static 'img/logo.svg' %}" height="48" alt="logo">
     <span class="fw-bold ms-2">{{ site_header|default:_('Django administration') }}</span>
   </div>
 {% endblock %}
@@ -53,26 +53,26 @@
       </div>
     {% endif %}
     <div class="card col col-md-6 mx-auto">
-      <div class="card-header">Login</div>
+      <div class="card-header"><h5>Login</h5></div>
       <form action="{{ app_path }}" method="post" id="login-form" novalidate>{% csrf_token %}
         <div class="card-body">
-          <div class="form-row">
+          <div class="form-row py-3">
             {{ form.username.label_tag }} {{ form.username }}
             <div class="invalid-feedback">{{ form.username.errors }}</div>
           </div>
-          <div class="form-row">
+          <div class="form-row py-3">
             {{ form.password.label_tag }} {{ form.password }}
             <div class="invalid-feedback">{{ form.password.errors }}</div>
           </div>
           <input type="hidden" name="next" value="{{ next }}">
           {% url 'admin_password_reset' as password_reset_url %}
           {% if password_reset_url %}
-            <div class="password-reset-link">
+            <div class="password-reset-link px-3">
               <a href="{{ password_reset_url }}">{% translate 'Forgotten your password or username?' %}</a>
             </div>
           {% endif %}
         </div>
-        <div class="submit-row card-footer">
+        <div class="submit-row card-footer p-3">
           <input type="submit" value="{% translate 'Log in' %}">
         </div>
       </form>

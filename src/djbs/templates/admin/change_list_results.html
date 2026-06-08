@@ -7,22 +7,22 @@
 {% if results %}
   <div class="results table-responsive">
     <table id="result_list" class="table table-sm table-hover">
-      <thead>
+      <thead class="text-nowrap">
         <tr>
           {% for header in result_headers %}
             <th scope="col"{{ header.class_attrib }}>
               <div class="d-flex g-1">
                 <span class="me-auto">{{ header.text|capfirst }}</span>
                 {% if header.sortable %}
-                  {% if header.sort_priority > 0 %}
-                    <div class="sortoptions">
-                      <a class="sortremove" href="{{ header.url_remove }}" title="{% translate "Remove from sorting" %}">{% icon "dismiss" %}</i></a>
-                      <a href="{{ header.url_toggle }}" class="toggle {{ header.ascending|yesno:'ascending,descending' }}" title="{% translate "Toggle sorting" %}"><i class="bi {{ header.ascending|yesno:'bi-arrow-down-short,bi-arrow-up-short' }}"></i></a>
+                  <div class="sortoptions d-flex justify-content-center align-items-end">
+                    {% if header.sort_priority > 0 %}
+                      <a class="sortremove small" href="{{ header.url_remove }}" title="{% translate "Remove from sorting" %}">{% icon "dismiss" %}</a>
+                      <a href="{{ header.url_toggle }}" class="toggle small {{ header.ascending|yesno:'ascending,descending' }}" title="{% translate "Toggle sorting" %}"> {% if header.ascending %}{% icon "chevron-down" %}{% else %}{% icon "chevron-up" %}{% endif %}</a>
                       {% if num_sorted_fields > 1 %}<span class="sortpriority badge text-bg-secondary small rounded-pill" title="{% blocktranslate with priority_number=header.sort_priority %}Sorting priority: {{ priority_number }}{% endblocktranslate %}">{{ header.sort_priority }}</span>{% endif %}
-                    </div>
-                  {% else %}
-                    <a href="{{ header.url_primary }}" class="small"><i class="small bi bi-arrow-down-up"></i></a>
-                  {% endif %}
+                    {% else %}
+                      <a href="{{ header.url_primary }}" class="sort small">{% icon "chevron-expand" %}</a>
+                    {% endif %}
+                  </div>
                 {% endif %}
               </div>
               </div>

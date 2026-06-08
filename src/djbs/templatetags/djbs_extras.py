@@ -9,6 +9,8 @@ from django.contrib.admin.views.main import PAGE_VAR
 from django.db import models
 from django.templatetags.static import static
 from django.utils.safestring import mark_safe
+from .. import djbs_constants
+from ..global_djbs_settings import DJBSTHEME_DEFAULTS
 
 register = template.Library()
 
@@ -80,6 +82,16 @@ def valueof(querystr, param):
 
 # Tags
 # -----------------------------------------------------------------------------
+
+
+@register.simple_tag
+def get_djbs_settings():
+    return getattr(settings, "DJBSTHEME", DJBSTHEME_DEFAULTS)
+
+
+@register.simple_tag
+def get_djbs_constants():
+    return djbs_constants
 
 
 @register.simple_tag

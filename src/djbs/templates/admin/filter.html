@@ -1,4 +1,4 @@
-{% load i18n djbs_extras %}
+{% load i18n djbs_extras %}{% get_djbs_settings as djbs %}{% get_djbs_constants as djbsc %}
 {% with FILTER_STYLE=cl.model_admin.filter_style|default:djbs.FILTER_STYLE %}
   {% if FILTER_STYLE == "accordion" %}
     <div class="accordion-item" data-filter-title="{{ title }}">
